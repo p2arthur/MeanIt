@@ -8,16 +8,7 @@ import OptionsSection from "./OptionsSection";
 const DynamicSection = ({ type }: contentSectionInterface) => {
   const posts = [];
 
-  const optionsList = [
-    {
-      type: "news",
-      data: {
-        title: "new post by coop",
-        subtitle: "I created a new coin called coop coin",
-        option: "no-option",
-      },
-    },
-  ];
+  const optionsList = [];
 
   const contentRenderer = () => {
     switch (type) {

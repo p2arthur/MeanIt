@@ -1,49 +1,9 @@
 [
   {
-    "postId": "1431",
-    "creator": "p2.algogator",
-    "content": "Getting some hands on AWS CDK while studying by creating CloudFormation stacks and a S3 Bucket resource. To give better",
-    "interactions": {
-      "likes": 32,
-      "comments": [
-        "Nice post",
-        "Nice post",
-        "Nice post",
-        "Nice post",
-        "Nice post",
-        "Nice post",
-        "Nice post",
-        "Nice post"
-      ],
-      "donations": 32
-    }
-  },
-  {
-    "postId": "1436",
-    "creator": "TGIP...JNML4",
-    "content": "Getting some hands on AWS CDK while studying by creating CloudFormation stacks and a S3 Bucket resource. To give better naming to the Bucket I used CDK Intrinsic functions and now the resource has a elegant name containing part of the Stack ID. ",
-    "interactions": { "likes": 32, "comments": [], "donations": 10 }
-  },
-  {
-    "postId": "1433",
-    "creator": "kraken.algo",
-    "content": "Getting some hands on AWS CDK while studying by creating CloudFormation stacks and a S3 Bucket resource. To give better naming to the Bucket I used CDK Intrinsic functions and now the resource has a elegant name containing part of the Stack ID. Getting some hands on AWS CDK while studying by creating CloudFormation stacks and a S3 Bucket resource. To give better naming to the Bucket I used CDK Intrinsic functions and now the resource has a elegant name containing part of the Stack ID.",
-    "interactions": {
-      "likes": 32,
-      "comments": ["Nice post", "Nice post", "Nice post", "Nice post"],
-      "donations": 0
-    }
-  },
-  {
-    "postId": "1537",
-    "creator": "AENCK...B5TGR",
-    "content": "he Bucket I used CDK Intrinsic functions and now the resource has a elegant name containing part of the Stack ID.",
-    "interactions": { "likes": 32, "comments": [], "donations": 32 }
-  },
-  {
-    "postId": "1634",
-    "creator": "p2.algogator",
-    "content": "First test using this tool",
-    "interactions": { "likes": 32, "comments": [], "donations": 32 }
+    "creationDate": 1695521931118,
+    "postId": "da92a647-cbba-49b8-bf17-42a3bf6b09cf",
+    "creator": "TGIPEOKUFC5JFTPFMXGSZWOGOFA7THFZXUTRLQEOH3RD3LGI6QEEWJNML4",
+    "content": "Mean it is so cool",
+    "interactions": { "likes": 0, "comments": [], "donations": 0 }
   }
 ]

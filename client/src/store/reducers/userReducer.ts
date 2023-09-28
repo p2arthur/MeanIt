@@ -1,19 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 interface userStateInterface {
-  userId: string;
-  isLoggedIn: Boolean;
-  userWallet: string;
+  isPremium: Boolean;
+  userWalletAddress: string;
 }
 
 interface userStateActionsInterface {
   type: string;
-  payload: { userId: string; userWallet: string };
+  payload: { userId: string; userWalletAddress: string };
 }
 
 const initialState = {
-  userId: "",
-  isLoggedIn: false,
-  userWallet: "",
+  userWalletAddress: "",
+  isPremium: false,
 };
 
 const userSlice = createSlice({
@@ -21,14 +19,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logIn: (state, action) => {
-      state.isLoggedIn = true;
-      state.userId = action.payload.userId;
-      state.userWallet = action.payload.userWallet;
+      state.userWalletAddress = action.payload.userWalletAddress;
+      state.isPremium = action.payload.isPremium;
     },
     logOut: (state, action) => {
-      state.isLoggedIn = false;
-      state.userId = "";
-      state.userWallet = "";
+      state.userWalletAddress = "";
+      state.isPremium = false;
     },
   },
 });

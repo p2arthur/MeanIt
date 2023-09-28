@@ -3,15 +3,25 @@ import TextBox from "./TextBox";
 import PostCard from "./PostCard";
 import { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
+import Modal from "./Modal";
 
 const FeedList = (): ReactNode => {
   let postList: postInterface[] = [];
 
   const [postsList, setPostsList] = useState<postInterface[]>([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
 
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get("http://localhost:8000/posts");
+      console.log("postsListData", data);
       setPostsList(data);
     } catch (error) {
       console.log("Error fetching posts");
@@ -44,10 +54,15 @@ const FeedList = (): ReactNode => {
   }
 
   return (
-    <div className="flex gap-5 flex-col h-screen overflow-y-auto scroll px-2 bg-gray-900 pb-20">
+    <div className="flex gap-5 flex-col h-screen overflow-y-auto scroll px-2 bg-gray-200 dark:bg-gray-950 pb-20">
+      <Modal modalIsOpen={modalIsOpen} cancelFn={handleCloseModal} />
+
       <TextBox />
       <h2 className="text-xl font-semibold text-gray-100 ml-5">Your feed</h2>
       {renderedPosts}
+      <button className="btn btn-primary" onClick={handleOpenModal}>
+        Open modal
+      </button>
     </div>
   );
 };

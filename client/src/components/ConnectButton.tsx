@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
-import CreateAccount from "../services/CreateAccount";
 
 const ConnectButton = () => {
   const { providers, activeAccount } = useWallet();
   const [isConnected, setIsConnected] = useState(false);
-
-  useEffect(() => {
-    if (activeAccount) {
-      CreateAccount(activeAccount);
-    }
-  }, [activeAccount]);
 
   const handleLogIn = async () => {
     if (providers) {

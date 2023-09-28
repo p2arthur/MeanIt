@@ -12,16 +12,29 @@ const WalletWidget = (activeAccount: any, providers: Provider[]) => {
   };
 
   return (
-    <div className="flex">
-      <button className="w-4/5 rounded-bl rounded-tl px-1 bg-cyan-500 p-1 text-sm">
-        {formatWalletAddress(activeAccount.activeAccount.address)}
-      </button>
-      <button
-        className="p-1 rounded-tr rounded-br w-1/5 transition all hover:bg-red-700 bg-cyan-600 flex flex-col items-center justify-center"
-        onClick={handleLogOut}
+    <div className="dropdown dropdown-end">
+      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+        <div className="w-10 rounded-full">
+          <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+        </div>
+      </label>
+      <ul
+        tabIndex={0}
+        className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
       >
-        <BiLogOut className="" />
-      </button>
+        <li>
+          <a className="justify-between">
+            Profile
+            <span className="badge">New</span>
+          </a>
+        </li>
+        <li>
+          <a>Settings</a>
+        </li>
+        <li>
+          <a>Logout</a>
+        </li>
+      </ul>
     </div>
   );
 };

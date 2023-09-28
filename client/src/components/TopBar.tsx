@@ -1,33 +1,39 @@
 import ConnectButton from "./ConnectButton";
 import { useWallet } from "@txnlab/use-wallet";
 import WalletWidget from "../widgets/WalletWidget";
-import { useEffect } from "react";
-import CreateAccount from "../services/CreateAccount";
+import { useEffect, useState } from "react";
+import createAccount from "../services/createAccount";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const TopBar = () => {
   const { activeAccount, providers } = useWallet();
 
   useEffect(() => {
     if (activeAccount) {
-      CreateAccount(activeAccount);
+      createAccount(activeAccount);
     }
   }, [activeAccount]);
 
   return (
-    <div className="bg-gray-950 w-screen text-white p-2 pl-10 fixed z-10 flex justify-between items-center">
-      <div className="flex items-end">
+    <div className="navbar bg-base-100 fixed">
+      <div className="flex-1">
         <img
-          src="https://meanit-bucket.s3.sa-east-1.amazonaws.com/MeanIt-Logo1+(1).png"
+          src="https://d1dh0spncfsutm.cloudfront.net/meanit-logo.png"
           alt=""
           className="w-10"
         />
-        <p className="text-2xl">ean It</p>
       </div>
-      {!activeAccount ? (
-        <ConnectButton />
-      ) : (
-        <WalletWidget activeAccount={activeAccount} providers={providers} />
-      )}
+      <div className="flex-none gap-2">
+        <div className="form-control">
+          <input
+            type="text"
+            placeholder="Search"
+            className="input input-bordered w-24 md:w-auto"
+          />
+        </div>
+        <WalletWidget />
+        <ThemeSwitcher />
+      </div>
     </div>
   );
 };

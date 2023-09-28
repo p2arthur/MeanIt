@@ -1,5 +1,6 @@
 import { postInterface } from "../interfaces/post-interface";
 import { BiLike, BiDonateHeart, BiComment } from "react-icons/bi";
+import formatWalletAddress from "../utils/formatWalletAddress";
 
 const PostCard = (post: postInterface) => {
   return (
@@ -10,7 +11,7 @@ const PostCard = (post: postInterface) => {
             <div className="flex gap-3 items-center">
               <div className="w-12 border-2 border-cyan-500 h-12 rounded-full bg-gray-900 hover:scale-110 transition-all duration-75"></div>
               <h3 className="text-gray-200 text-xl font-semibold">
-                {post.creator}
+                {formatWalletAddress(post.creator)}
               </h3>
             </div>
             <p className="text-gray-400 text-sm md:text-lg">{post.content}</p>

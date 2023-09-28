@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs/promises";
 import cors from "cors";
-
+import { createRandomId } from "./shared/utils";
 const app = express();
 
 const port = 8000;
@@ -19,9 +19,9 @@ const readDataFromJson = async (path: string): Promise<string> => {
 
 //----------------------------------------------------------------------------
 
-app.post("/accounts/add-account", async (req, res) => {
+app.post("/accounts/create", async (req, res) => {
   try {
-    const { userWalletAddress } = req.body;
+    const { userWalletAddress, isPremium } = req.body;
 
     const data = await readDataFromJson(usersPath);
 
@@ -33,15 +33,14 @@ app.post("/accounts/add-account", async (req, res) => {
     );
 
     if (!existingAccount) {
-      const newAccount = { userWalletAddress };
+      const newAccount = { userWalletAddress, isPremium };
 
       jsonData.push(newAccount);
 
       await fs.writeFile(usersPath, JSON.stringify(jsonData));
-      res.status(200).json({ message: "Account added succesfully" });
+      res.status(201).json({ message: "Account added succesfully" });
     }
-
-    res.status(400).json({ message: "Account already exists" });
+    res.status(200).json(existingAccount);
   } catch (error) {
     res.status(500);
   }
@@ -55,20 +54,26 @@ app.get("/accounts", async (req, res) => {
 
 //----------------------------------------------------------------------------
 
-app.post("/posts/add-post", async (req, res) => {
+app.post("/posts/create", async (req, res) => {
   try {
-    const { postId, creator, content, interactions, donations } = req.body;
+    const { userWalletAddress, postContent } = req.body;
 
     const data = await readDataFromJson(postsPath);
 
     const jsonData = JSON.parse(data);
 
-    const newPost = { postId, creator, content, interactions, donations };
+    const newPost = {
+      creationDate: Date.now(),
+      postId: createRandomId(),
+      creator: userWalletAddress,
+      content: postContent,
+      interactions: { likes: 0, comments: [], donations: 0 },
+    };
 
     jsonData.push(newPost);
 
-    await fs.writeFile(usersPath, JSON.stringify(jsonData));
-    res.status(200).json({ message: "Account added succesfully" });
+    await fs.writeFile(postsPath, JSON.stringify(jsonData));
+    res.status(200).json({ message: "postAdded successfully" });
   } catch (error) {}
 });
 
