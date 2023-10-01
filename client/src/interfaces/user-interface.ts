@@ -1,5 +1,4 @@
 export interface UserInterface {
-  userId: string;
-  isLoggedIn: boolean;
-  userWallet: string;
+  userWalletAddress: string;
+  isPremium: boolean;
 }

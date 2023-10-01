@@ -1,11 +1,13 @@
 import { useWallet } from "@txnlab/use-wallet";
 import { FormEvent, useState } from "react";
 import ConnectButton from "./ConnectButton";
-import createPost from "../services/createPost";
+import { postServices } from "../services/postServices";
 
 const TextBox = () => {
   const [postText, setPostText] = useState("");
   const { providers, activeAccount } = useWallet();
+
+  const postsServices = new postServices();
 
   const handleLogIn = async () => {
     if (providers) {
@@ -26,7 +28,7 @@ const TextBox = () => {
   const handleCreatePost = (event: FormEvent) => {
     event.preventDefault();
     if (activeAccount) {
-      createPost(activeAccount, postText);
+      postsServices.createPost(activeAccount, postText);
     } else {
       console.log("Please connect a wallet to post");
     }
