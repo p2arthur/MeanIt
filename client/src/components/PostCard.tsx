@@ -2,20 +2,38 @@ import { postInterface } from "../interfaces/post-interface";
 import { BiLike, BiDonateHeart, BiComment } from "react-icons/bi";
 import formatWalletAddress from "../utils/formatWalletAddress";
 import { useNavigate } from "react-router-dom";
+import formatDateFromTimestamp from "../utils/formatDateFromTimestamp";
 
 const PostCard = (post: postInterface) => {
   const navigate = useNavigate();
 
+  const handleLikeClick = (event) => {
+    // Prevent the click event from propagating up to the parent div
+    event.stopPropagation();
+    // Add your like functionality here
+    // ...
+  };
+
+  const { time, measure } = formatDateFromTimestamp(post.creationDate);
+
   return (
-    <div key={post.postId} onClick={() => navigate(`/posts/${post.postId}`)}>
+    <div key={post.postId}>
       <div className="bg-gray-100 dark:bg-gray-950 p-5 border border-transparent hover:border-gray-300 dark:hover:border-gray-900 hover:scale-101 transition-all cursor-pointer">
-        <div className="flex flex-col">
+        <div
+          onClick={() => navigate(`/posts/${post.postId}`)}
+          className="flex flex-col"
+        >
           <div className="flex flex-col gap-2">
-            <div className="flex gap-3 items-center">
-              <div className="w-12 border-2 border-cyan-500 h-12 rounded-full bg-gray-900 hover:scale-110 transition-all duration-75"></div>
-              <h3 className="text-gray-950 dark:text-gray-200 text-xl font-semibold">
-                {formatWalletAddress(post.creator)}
-              </h3>
+            <div className="flex justify-between">
+              <div className="flex gap-3 items-center">
+                <div className="w-12 border-2 border-cyan-500 h-12 rounded-full bg-gray-300 dark:bg-gray-900 hover:scale-110 transition-all duration-75"></div>
+                <h3 className="text-gray-950 dark:text-gray-200 text-xl font-semibold">
+                  {formatWalletAddress(post.creator)}
+                </h3>
+              </div>
+              <span>
+                {time} {measure} ago
+              </span>
             </div>
             <div className="w-full">
               <p
@@ -33,7 +51,10 @@ const PostCard = (post: postInterface) => {
           </div>
 
           <div className="w-full flex items-center text-gray-900 dark:text-gray-100 justify-between lg:justify-end gap-1 px-5">
-            <div className=" flex flex-col items-center">
+            <div
+              onClick={handleLikeClick}
+              className=" flex flex-col items-center"
+            >
               <div className="group transition-all rounded-full bg-transparent hover:bg-gray-900 dark:hover:bg-gray-100 p-1">
                 <BiLike className="transition-all group-hover:text-gray-100 dark:group-hover:text-gray-950 text-xl" />
               </div>
