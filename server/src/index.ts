@@ -52,6 +52,24 @@ app.get("/accounts", async (req, res) => {
   res.send(data);
 });
 
+app.get("/accounts/:walletAddress", async (req, res) => {
+  const { walletAddress } = req.params;
+
+  console.log("walletAddress:", walletAddress);
+
+  const data = JSON.parse(await readDataFromJson(usersPath));
+
+  console.log("data", data);
+
+  const user = data.find(
+    (account) => account.userWalletAddress === walletAddress
+  );
+
+  console.log(user);
+
+  res.send(user);
+});
+
 //----------------------------------------------------------------------------
 
 app.post("/posts/create", async (req, res) => {

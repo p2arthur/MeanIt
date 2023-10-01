@@ -12,8 +12,6 @@ const WalletWidget = () => {
     (provider) => provider.metadata.id === activeAccount?.providerId
   );
 
-  console.log(provider);
-
   return (
     <div className="dropdown dropdown-end">
       <div className="flex bg-gray-950 items-center rounded-full px-2 ">

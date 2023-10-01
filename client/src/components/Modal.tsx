@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 
 export default function Modal({ modalIsOpen, cancelFn }) {
-  console.log("modalIsOpen", modalIsOpen);
   let [isOpen, setIsOpen] = useState(true);
 
   return (

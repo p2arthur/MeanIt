@@ -19,16 +19,21 @@ import { useEffect, useState } from "react";
 import PostDetail from "./pages/postDetail";
 import { postInterface } from "./interfaces/post-interface";
 import axios from "axios";
+import { accountServices } from "./services/accountServices";
+import { UserInterface } from "./interfaces/user-interface";
 
 const App = () => {
   const { activeAccount, providers } = useWallet();
   const [postsList, setPostsList] = useState<postInterface[]>([]);
+  const [userData, setUserData] = useState<UserInterface[]>();
   const walletProviders = useInitializeProviders({
     providers: [
       { id: PROVIDER_ID.PERA, getDynamicClient: getDynamicPeraWalletConnect },
       { id: PROVIDER_ID.DEFLY, getDynamicClient: getDynamicDeflyWalletConnect },
     ],
   });
+
+  const account = new accountServices();
 
   const fetchPosts = async () => {
     try {
@@ -40,16 +45,30 @@ const App = () => {
     }
   };
 
+  const fetchUserData = async () => {
+    if (activeAccount) {
+      const data = await account.getAccount(activeAccount.address);
+      console.log(data);
+      setUserData(data);
+    }
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    if (activeAccount) {
+      fetchUserData();
+    }
+  }, [activeAccount]);
 
   const router = createBrowserRouter([
     {
       element: (
         <>
           <NavBar />
-          <Outlet context={{ postsList }} />
+          <Outlet context={{ postsList, userData }} />
         </>
       ),
 

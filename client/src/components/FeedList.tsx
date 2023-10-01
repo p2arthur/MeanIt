@@ -21,6 +21,7 @@ const FeedList = (): ReactNode => {
     renderedPosts = postsList.map((post) => {
       return (
         <PostCard
+          key={post.postId}
           postId={post.postId}
           creationDate={post.creationDate}
           creator={post.creator}
