@@ -14,13 +14,15 @@ import {
   getDynamicDeflyWalletConnect,
 } from "./utils/getDynamicWalletProviders";
 import ProfilePage from "./pages/profilePage";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import PostDetail from "./pages/postDetail";
+import { postInterface } from "./interfaces/post-interface";
+import axios from "axios";
 
 const App = () => {
   const { activeAccount, providers } = useWallet();
-
+  const [postsList, setPostsList] = useState<postInterface[]>([]);
   const walletProviders = useInitializeProviders({
     providers: [
       { id: PROVIDER_ID.PERA, getDynamicClient: getDynamicPeraWalletConnect },
@@ -28,12 +30,26 @@ const App = () => {
     ],
   });
 
+  const fetchPosts = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8000/posts");
+      console.log("postsListData", data);
+      setPostsList(data);
+    } catch (error) {
+      console.log("Error fetching posts");
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   const router = createBrowserRouter([
     {
       element: (
         <>
           <NavBar />
-          <Outlet />
+          <Outlet context={{ postsList }} />
         </>
       ),
 

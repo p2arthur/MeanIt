@@ -1,15 +1,12 @@
-import { postInterface } from "../interfaces/post-interface";
-import TextBox from "./TextBox";
 import PostCard from "./PostCard";
 import { ReactNode, useEffect, useState } from "react";
-import axios from "axios";
+
 import Modal from "./Modal";
+import { useOutletContext } from "react-router-dom";
 
 const FeedList = (): ReactNode => {
-  let postList: postInterface[] = [];
-
-  const [postsList, setPostsList] = useState<postInterface[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { postsList } = useOutletContext();
 
   const handleOpenModal = () => {
     setModalIsOpen(true);
@@ -17,20 +14,6 @@ const FeedList = (): ReactNode => {
   const handleCloseModal = () => {
     setModalIsOpen(false);
   };
-
-  const fetchPosts = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:8000/posts");
-      console.log("postsListData", data);
-      setPostsList(data);
-    } catch (error) {
-      console.log("Error fetching posts");
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   let renderedPosts: ReactNode;
 
