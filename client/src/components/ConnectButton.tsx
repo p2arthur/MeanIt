@@ -5,10 +5,10 @@ const ConnectButton = () => {
   const { providers, activeAccount } = useWallet();
   const [isConnected, setIsConnected] = useState(false);
 
-  const handleLogIn = async () => {
+  const handleLogIn = async (provider) => {
     if (providers) {
       try {
-        await providers[0].connect();
+        await provider.connect();
       } catch (error) {
         console.error("Error connecting with wallet");
       }
@@ -16,16 +16,24 @@ const ConnectButton = () => {
   };
 
   return (
-    <div className="w-32">
-      <button
-        className={`rounded flex bg-gray-900 text-gray-200 border-2 py-1 px-1 hover:bg-cyan-500 border-gray-900 transition-all duration-75 ${
-          isConnected ? "bg-green-500" : ""
-        }`}
-        onClick={handleLogIn}
-      >
-        {isConnected ? "Connected" : "Connect Wallet"}
-      </button>
-    </div>
+    <details className="dropdown">
+      <summary className="m-1 btn btn-sm text-sm bg-cyan-400 text-gray-900 hover:bg-cyan-500">
+        Connect Wallet
+      </summary>
+      <ul className="p-2 shadow menu dropdown-content z-[1] bg-cyan-400 rounded-box w-40 text-gray-950">
+        {providers?.map((provider) => (
+          <li key={provider.metadata.name}>
+            <a className="flex" onClick={() => handleLogIn(provider)}>
+              <img
+                className="h-5 w-5 rounded-full"
+                src={provider.metadata.icon}
+              />
+              {provider.metadata.name}{" "}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
   );
 };
 

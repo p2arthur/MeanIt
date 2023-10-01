@@ -1,7 +1,7 @@
 import { useWallet } from "@txnlab/use-wallet";
 import { FormEvent, useState } from "react";
 import ConnectButton from "./ConnectButton";
-import createPost from "../services/CreatePost";
+import createPost from "../services/createPost";
 
 const TextBox = () => {
   const [postText, setPostText] = useState("");
@@ -33,9 +33,9 @@ const TextBox = () => {
   };
 
   return (
-    <div className="bg-gray-950 border-b-1 lg:border-l-1 lg:border-b-0 lg:rounded-b-none border-cyan-400 rounded-b lg:rounded-br p-5 h-40">
+    <div className="bg-gray-100 dark:bg-gray-950 border-b-1 lg:border-l-1 lg:border-b-0 lg:rounded-b-none border-cyan-400 rounded-b lg:rounded-br h-40 p-3 mt-5">
       <form
-        className="h-24 w-full flex flex-col items-end"
+        className="h-full w-full flex flex-col items-end"
         onSubmit={handleCreatePost}
       >
         <textarea
@@ -46,7 +46,7 @@ const TextBox = () => {
           maxLength={280}
           spellCheck={false}
           disabled={!activeAccount}
-          className=" w-full bg-transparent border-t p-2 hover:shadow-inner border-gray-900 text-gray-400 active:ring-0 transition-transform focus:outline-none resize-none hover:scale-101 placeholder:text-gray-600"
+          className="h-2/3 w-full text-gray-900 bg-transparent border-t p-2 dark:border-gray-900 border-gray-200 dark:text-gray-200 active:ring-0 transition-transform focus:outline-none resize-none hover:scale-101 placeholder:text-gray-600"
         />
 
         {!activeAccount ? (

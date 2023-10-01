@@ -54,15 +54,12 @@ const FeedList = (): ReactNode => {
   }
 
   return (
-    <div className="flex gap-5 flex-col h-screen overflow-y-auto scroll px-2 bg-gray-200 dark:bg-gray-950 pb-20">
+    <div className="flex gap-5 flex-col overflow-x-hidden">
       <Modal modalIsOpen={modalIsOpen} cancelFn={handleCloseModal} />
-
-      <TextBox />
-      <h2 className="text-xl font-semibold text-gray-100 ml-5">Your feed</h2>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 ml-5">
+        Your feed
+      </h2>
       {renderedPosts}
-      <button className="btn btn-primary" onClick={handleOpenModal}>
-        Open modal
-      </button>
     </div>
   );
 };

@@ -20,13 +20,13 @@ const ThemeSwitcher = () => {
 
   return (
     <div>
-      <label className="swap swap-rotate bg-gray-950 rounded-full p-px dark:bg-gray-100 text-gray-950">
+      <label className="swap swap-rotate bg-gray-950 rounded-full p-1 dark:bg-gray-100 ">
         {/* this hidden checkbox controls the state */}
         <input type="checkbox" onClick={handleThemeSwitch} />
 
         {/* sun icon */}
         <svg
-          className="swap-on fill-current w-5 h-5 text-gray-100"
+          className="swap-on fill-current w-5 h-5 text-gray-950"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -35,7 +35,7 @@ const ThemeSwitcher = () => {
 
         {/* moon icon */}
         <svg
-          className="swap-off fill-current w-5 h-5"
+          className="swap-off fill-current w-5 h-5 text-gray-100"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
