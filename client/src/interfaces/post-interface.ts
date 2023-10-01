@@ -1,4 +1,5 @@
 export interface postInterface {
+  creationDate: number;
   postId: string;
   creator: string;
   content: string;

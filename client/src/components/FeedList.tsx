@@ -22,6 +22,7 @@ const FeedList = (): ReactNode => {
       return (
         <PostCard
           postId={post.postId}
+          creationDate={post.creationDate}
           creator={post.creator}
           content={post.content}
           interactions={{
