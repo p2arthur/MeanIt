@@ -12,5 +12,5 @@ const lambdaStack = new LambdaStack(app, "MeanitLambdaStack", {
 });
 
 const apiStack = new ApiStack(app, "MeanitApiStack", {
-  postsLambdaIntegration: lambdaStack.postsLambda,
+  postsLambdaIntegration: lambdaStack.postsLambdaIntegration,
 });

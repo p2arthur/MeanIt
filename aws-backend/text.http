@@ -1,0 +1,5 @@
+@url = https://52y2qcum6e.execute-api.sa-east-1.amazonaws.com/prod/posts
+
+GET https://spwe815yaf.execute-api.sa-east-1.amazonaws.com/prod/posts
+
+###
