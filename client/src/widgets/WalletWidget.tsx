@@ -1,6 +1,6 @@
 import { useWallet } from "@txnlab/use-wallet";
 import formatWalletAddress from "../utils/formatWalletAddress";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiUser } from "react-icons/bi";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const WalletWidget = () => {
@@ -11,7 +11,6 @@ const WalletWidget = () => {
   const provider = providers?.filter(
     (provider) => provider.metadata.id === activeAccount?.providerId
   );
-
   return (
     <div className="dropdown dropdown-end">
       <div className="flex bg-gray-950 items-center rounded-full px-2 ">
@@ -38,18 +37,18 @@ const WalletWidget = () => {
         <li>
           <a onClick={() => navigate("/profile")} className="justify-between">
             Profile
+            <BiUser />
           </a>
-        </li>
-        <li>
-          <a>Settings</a>
         </li>
         <li>
           <a
             onClick={() =>
               provider ? provider[0].disconnect() : console.log("No provider")
             }
+            className="justify-between"
           >
             Logout
+            <BiLogOut />
           </a>
         </li>
       </ul>

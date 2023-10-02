@@ -39,7 +39,7 @@ const FeedList = (): ReactNode => {
   }
 
   return (
-    <div className="flex gap-5 flex-col overflow-x-hidden">
+    <div className="flex gap-2 flex-col overflow-x-hidden pb-10">
       <Modal modalIsOpen={modalIsOpen} cancelFn={handleCloseModal} />
       <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 ml-5">
         Your feed

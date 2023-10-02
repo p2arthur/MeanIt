@@ -26,7 +26,7 @@ const PostDetail = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-gray-200 dark:bg-gray-900 px-3 flex flex-col gap-3 mt-16">
+    <div className="h-screen bg-gray-200 dark:bg-gray-900 px-3 flex flex-col gap-3 mt-20">
       <PostCard
         creationDate={post.creationDate}
         postId={post.postId}
@@ -38,7 +38,6 @@ const PostDetail = () => {
           donations: post.interactions.donations,
         }}
       />
-      <button onClick={() => console.log(post)}>View posts list</button>
     </div>
   );
 };
