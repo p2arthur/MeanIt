@@ -43,6 +43,9 @@ const NavBar = () => {
               <NavLink to={link.path}>{link.title}</NavLink>
             </li>
           ))}
+          <li>
+            <NavLink to={"/test"}>Somewhere</NavLink>
+          </li>
           <div className="flex gap-3 items-center">
             {!activeAccount ? <ConnectButton /> : <WalletWidget />}
             <ThemeSwitcher />

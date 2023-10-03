@@ -45,7 +45,7 @@ const FeedList = (): JSX.Element => {
       <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 ml-5">
         Your feed
       </h2>
-      {/* {renderedPosts} */}
+      {renderedPosts}
     </div>
   );
 };

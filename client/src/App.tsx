@@ -23,6 +23,7 @@ import { UserInterface } from "./interfaces/user-interface";
 import { config } from "./config";
 import { DeflyWalletConnect } from "@blockshake/defly-connect";
 import { PeraWalletConnect } from "@perawallet/connect";
+import FeedList from "./components/FeedList";
 
 const App = () => {
   const { activeAccount, providers } = useWallet();
@@ -76,11 +77,11 @@ const App = () => {
       ),
 
       children: [
-        { path: "/", element: <div>Home</div> },
+        { path: "/", element: <HomePage /> },
         { path: "/profile", element: <ProfilePage /> },
         {
-          path: "/something/2",
-          element: <div className="mt-16 text-white">Something</div>,
+          path: "/test",
+          element: <div className="mt-16 text-white">Test</div>,
         },
         { path: "/posts/:postId", element: <PostDetail /> },
       ],
