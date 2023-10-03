@@ -3,10 +3,11 @@ import { ReactNode, useEffect, useState } from "react";
 
 import Modal from "./Modal";
 import { useOutletContext } from "react-router-dom";
+import { postInterface } from "../interfaces/post-interface";
 
-const FeedList = (): ReactNode => {
+const FeedList = (): JSX.Element => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { postsList } = useOutletContext();
+  const { postsList } = useOutletContext<{ postsList: postInterface[] }>();
 
   const handleOpenModal = () => {
     setModalIsOpen(true);
@@ -17,7 +18,7 @@ const FeedList = (): ReactNode => {
 
   let renderedPosts: ReactNode;
 
-  if (postsList) {
+  if (postsList.length > 0) {
     renderedPosts = postsList.map((post) => {
       return (
         <PostCard
@@ -44,7 +45,7 @@ const FeedList = (): ReactNode => {
       <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 ml-5">
         Your feed
       </h2>
-      {renderedPosts}
+      {/* {renderedPosts} */}
     </div>
   );
 };

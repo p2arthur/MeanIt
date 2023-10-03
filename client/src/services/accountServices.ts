@@ -1,11 +1,9 @@
 import axios from "axios";
 import { UserInterface } from "../interfaces/user-interface";
-
+import { config } from "../config";
 export class accountServices {
   public async getAccount(walletAddress: string | null | undefined) {
-    const response = await axios.get(
-      `http://localhost:8000/accounts/${walletAddress}`
-    );
+    const response = await axios.get(`${config}accounts/${walletAddress}`);
 
     const { data } = response;
 
@@ -16,13 +14,10 @@ export class accountServices {
     const { userWalletAddress } = activeAccount;
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/accounts/create",
-        {
-          userWalletAddress: userWalletAddress,
-          isPremium: false,
-        }
-      );
+      const response = await axios.post(`${config}/accounts/create`, {
+        userWalletAddress: userWalletAddress,
+        isPremium: false,
+      });
       console.log("CreateAccount axios response:", response);
 
       if (response.data) {

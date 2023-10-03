@@ -6,7 +6,6 @@ import {
   useWallet,
 } from "@txnlab/use-wallet";
 import { Provider } from "react-redux";
-import store from "./store/store";
 import NavBar from "./components/NavBar";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
@@ -21,6 +20,9 @@ import { postInterface } from "./interfaces/post-interface";
 import axios from "axios";
 import { accountServices } from "./services/accountServices";
 import { UserInterface } from "./interfaces/user-interface";
+import { config } from "./config";
+import { DeflyWalletConnect } from "@blockshake/defly-connect";
+import { PeraWalletConnect } from "@perawallet/connect";
 
 const App = () => {
   const { activeAccount, providers } = useWallet();
@@ -28,8 +30,8 @@ const App = () => {
   const [userData, setUserData] = useState<UserInterface[]>();
   const walletProviders = useInitializeProviders({
     providers: [
-      { id: PROVIDER_ID.PERA, getDynamicClient: getDynamicPeraWalletConnect },
-      { id: PROVIDER_ID.DEFLY, getDynamicClient: getDynamicDeflyWalletConnect },
+      { id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect },
+      { id: PROVIDER_ID.DEFLY, clientStatic: DeflyWalletConnect },
     ],
   });
 
@@ -37,7 +39,7 @@ const App = () => {
 
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/posts");
+      const { data } = await axios.get(`${config}/posts`);
       console.log("postsListData", data);
       setPostsList(data);
     } catch (error) {
@@ -73,7 +75,7 @@ const App = () => {
       ),
 
       children: [
-        { path: "/", element: <HomePage /> },
+        { path: "/", element: <div>Home</div> },
         { path: "/profile", element: <ProfilePage /> },
         { path: "/posts/:postId", element: <PostDetail /> },
       ],
@@ -82,11 +84,9 @@ const App = () => {
 
   return (
     <div className="bg-gray-300 dark:bg-gray-900 overflow-hidden">
-      <Provider store={store}>
-        <WalletProvider value={walletProviders}>
-          <RouterProvider router={router} />
-        </WalletProvider>
-      </Provider>
+      <WalletProvider value={walletProviders}>
+        <RouterProvider router={router} />
+      </WalletProvider>
     </div>
   );
 };

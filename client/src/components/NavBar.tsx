@@ -2,7 +2,6 @@ import ConnectButton from "./ConnectButton";
 import { useWallet } from "@txnlab/use-wallet";
 import WalletWidget from "../widgets/WalletWidget";
 import { useEffect, useState } from "react";
-import createAccount from "../services/createAccount";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { NavLink, useNavigate } from "react-router-dom";
 

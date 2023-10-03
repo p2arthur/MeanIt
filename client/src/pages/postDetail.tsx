@@ -10,7 +10,7 @@ interface postsListInterface {
 }
 
 const PostDetail = () => {
-  const { postsList } = useOutletContext<postsListInterface>();
+  const { postsList } = useOutletContext<{ postsList: postInterface[] }>();
 
   const { postId } = useParams();
   console.log(postId);
