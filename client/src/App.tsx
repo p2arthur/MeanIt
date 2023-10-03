@@ -39,7 +39,7 @@ const App = () => {
 
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get(`${config}/posts`);
+      const { data } = await axios.get(`${config.url}/posts`);
       console.log("postsListData", data);
       setPostsList(data);
     } catch (error) {
@@ -56,6 +56,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    console.log(config);
     fetchPosts();
   }, []);
 
@@ -77,6 +78,10 @@ const App = () => {
       children: [
         { path: "/", element: <div>Home</div> },
         { path: "/profile", element: <ProfilePage /> },
+        {
+          path: "/something/2",
+          element: <div className="mt-16 text-white">Something</div>,
+        },
         { path: "/posts/:postId", element: <PostDetail /> },
       ],
     },

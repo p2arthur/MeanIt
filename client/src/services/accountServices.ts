@@ -3,7 +3,7 @@ import { UserInterface } from "../interfaces/user-interface";
 import { config } from "../config";
 export class accountServices {
   public async getAccount(walletAddress: string | null | undefined) {
-    const response = await axios.get(`${config}accounts/${walletAddress}`);
+    const response = await axios.get(`${config.url}accounts/${walletAddress}`);
 
     const { data } = response;
 
@@ -14,7 +14,7 @@ export class accountServices {
     const { userWalletAddress } = activeAccount;
 
     try {
-      const response = await axios.post(`${config}/accounts/create`, {
+      const response = await axios.post(`${config.url}/accounts/create`, {
         userWalletAddress: userWalletAddress,
         isPremium: false,
       });
