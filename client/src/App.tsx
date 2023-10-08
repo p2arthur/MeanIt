@@ -28,7 +28,7 @@ import FeedList from "./components/FeedList";
 const App = () => {
   const { activeAccount, providers } = useWallet();
   const [postsList, setPostsList] = useState<postInterface[]>([]);
-  const [userData, setUserData] = useState<UserInterface[]>();
+  const [userData, setUserData] = useState<UserInterface>();
   const walletProviders = useInitializeProviders({
     providers: [
       { id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect },
@@ -36,7 +36,7 @@ const App = () => {
     ],
   });
 
-  const account = new accountServices();
+  const accountService = new accountServices();
 
   const fetchPosts = async () => {
     try {
@@ -50,28 +50,24 @@ const App = () => {
 
   const fetchUserData = async () => {
     if (activeAccount) {
-      const data = await account.getAccount(activeAccount.address);
-      console.log(data);
+      console.log("Serching account");
+      const data = await accountService.getAccount(activeAccount.address);
       setUserData(data);
     }
   };
 
   useEffect(() => {
-    console.log(config);
-    fetchPosts();
-  }, []);
-
-  useEffect(() => {
     if (activeAccount) {
       fetchUserData();
     }
+    setUserData(undefined);
   }, [activeAccount]);
 
   const router = createBrowserRouter([
     {
       element: (
         <>
-          <NavBar />
+          <NavBar userData={userData} />
           <Outlet context={{ postsList, userData }} />
         </>
       ),

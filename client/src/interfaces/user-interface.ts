@@ -1,4 +1,7 @@
 export interface UserInterface {
-  userWalletAddress: string;
-  isPremium: boolean;
+  id: number;
+  nfd: string;
+  username: string;
+  walletAddress: string;
+  profile_picture: string;
 }

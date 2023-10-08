@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
+import { accountServices } from "../services/accountServices";
 
 const ConnectButton = () => {
   const { providers, activeAccount } = useWallet();

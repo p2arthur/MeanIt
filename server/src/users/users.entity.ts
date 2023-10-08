@@ -21,6 +21,9 @@ export class User {
   @Column()
   username: string;
 
+  @Column()
+  profile_picture: string;
+
   @AfterInsert()
   logInsert() {
     console.log('Inserted user with wallet address:', this.walletAddress);

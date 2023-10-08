@@ -1,9 +1,11 @@
 import { useWallet } from "@txnlab/use-wallet";
 import formatWalletAddress from "../utils/formatWalletAddress";
 import { BiLogOut, BiUser } from "react-icons/bi";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
+import { UserInterface } from "../interfaces/user-interface";
+import { UserPropsInterface } from "../interfaces/user-props-interface";
 
-const WalletWidget = () => {
+const WalletWidget = ({ userData }: UserPropsInterface) => {
   const { activeAccount, providers } = useWallet();
 
   const navigate = useNavigate();
@@ -25,9 +27,7 @@ const WalletWidget = () => {
               alt="account-avatar"
             />
           </div>
-          <p>
-            {activeAccount ? formatWalletAddress(activeAccount.address) : null}
-          </p>
+          <p>{userData ? userData.username : null}</p>
         </label>
       </div>
       <ul

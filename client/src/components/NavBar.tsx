@@ -3,14 +3,15 @@ import { useWallet } from "@txnlab/use-wallet";
 import WalletWidget from "../widgets/WalletWidget";
 import { useEffect, useState } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
+import { UserPropsInterface } from "../interfaces/user-props-interface";
 
 interface navLinksInterface {
   title: string;
   path: string;
 }
 
-const NavBar = () => {
+const NavBar = ({ userData }: UserPropsInterface) => {
   const { activeAccount } = useWallet();
   const navigate = useNavigate();
 
@@ -20,10 +21,11 @@ const NavBar = () => {
 
   useEffect(() => {
     navigate("/");
-    if (activeAccount) {
-      // createAccount(activeAccount);
-    }
   }, [activeAccount]);
+
+  useEffect(() => {
+    console.log("Navbar userdata changed", userData);
+  }, [userData]);
 
   return (
     <div className="navbar bg-base-100 fixed z-30">
@@ -47,7 +49,11 @@ const NavBar = () => {
             <NavLink to={"/test"}>Somewhere</NavLink>
           </li>
           <div className="flex gap-3 items-center">
-            {!activeAccount ? <ConnectButton /> : <WalletWidget />}
+            {!userData ? (
+              <ConnectButton />
+            ) : (
+              <WalletWidget userData={userData} />
+            )}
             <ThemeSwitcher />
           </div>
         </ul>

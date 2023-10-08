@@ -17,9 +17,6 @@ export class UsersService {
     console.log(walletAddress);
     const user = await this.repo.findOne({ where: { walletAddress } });
     console.log(user);
-    if (!user) {
-      throw new NotFoundException();
-    }
     this.userData = user;
     return this.userData;
   }
@@ -30,23 +27,31 @@ export class UsersService {
     const user = await this.findOne(walletAddress);
     console.log(user);
 
-    const userExists: boolean = user.length > 0;
-
-    if (userExists) {
+    if (user) {
       console.log('user already exists');
       return user;
     }
+
     try {
       const userNfd = await this.userUtils.getNfd(walletAddress);
+      console.log(userNfd);
+      const userName =
+        userNfd === ''
+          ? this.userUtils.formatWalletAddress(walletAddress)
+          : userNfd;
       console.log(userNfd);
       const userData = this.repo.create({
         walletAddress,
         nfd: userNfd,
-        username: userNfd,
+        username: userName,
+        profile_picture:
+          'https://i.insider.com/61cc84b94710b10019c77960?width=500&format=jpeg&auto=webp',
       });
       this.userData = await this.repo.save(userData);
       return this.userData;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
   //----------------------------------------------------------------------------
 
