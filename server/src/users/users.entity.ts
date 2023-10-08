@@ -18,6 +18,9 @@ export class User {
   @Column()
   nfd: string | undefined;
 
+  @Column()
+  username: string;
+
   @AfterInsert()
   logInsert() {
     console.log('Inserted user with wallet address:', this.walletAddress);
