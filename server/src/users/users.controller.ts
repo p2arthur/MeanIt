@@ -9,8 +9,8 @@ export class UsersController {
   constructor(private usersServices: UsersService) {}
 
   @Get('/:address')
-  findUser(@Param('address') address: string) {
-    user = this.usersServices.findOne(address);
+  async findUser(@Param('address') address: string) {
+    user = await this.usersServices.findOne(address);
     return user;
   }
 
