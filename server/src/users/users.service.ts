@@ -57,7 +57,6 @@ export class UsersService {
 
   //----------------------------------------------------------------------------
   async remove(walletAddress: string) {
-    console.log(walletAddress);
     const user = await this.findOne(walletAddress);
     console.log(user);
     if (!user) {
