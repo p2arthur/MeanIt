@@ -72,6 +72,7 @@ export class UsersService {
   //----------------------------------------------------------------------------
   async update(walletAddress: string, attributes: Partial<User>) {
     const user = await this.findOne(walletAddress);
+    console.log('updating user');
     console.log(user);
     console.log(attributes);
 

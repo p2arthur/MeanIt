@@ -2,21 +2,24 @@ import axios from "axios";
 import { UserInterface } from "../interfaces/user-interface";
 import { config } from "../config";
 export class accountServices {
+  private userData: UserInterface | undefined;
+
+  //----------------------------------------------------------------------------
   public async getAccount(walletAddress: string) {
     console.log("Getting account");
     const response = await axios.get(`${config.url}/auth/${walletAddress}`);
-    console.log(response);
 
-    const { data } = response;
+    this.userData = response.data;
 
-    if (walletAddress && !data) {
+    if (walletAddress && !this.userData) {
       console.log("Creating account");
-      const { data } = await this.createAccount(walletAddress);
-      console.log("New user created:", data);
+      await this.createAccount(walletAddress);
     }
-    return data;
+    return this.userData;
   }
+  //----------------------------------------------------------------------------
 
+  //----------------------------------------------------------------------------
   private async createAccount(walletAddress: string) {
     const requestData = { walletAddress };
 
@@ -29,8 +32,34 @@ export class accountServices {
         },
       }
     );
+    this.userData = response.data;
+  }
+  //----------------------------------------------------------------------------
 
-    const { data } = response;
-    return data;
+  //----------------------------------------------------------------------------
+  public async updateAccount(
+    walletAddress: string,
+    attributes: Partial<UserInterface>
+  ) {
+    console.log(
+      "Update account address + attributes",
+      walletAddress,
+      attributes
+    );
+
+    const response = await axios.patch(
+      `${config.url}/auth/${walletAddress}`,
+      attributes,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log(response);
+
+    this.userData = response.data;
+    return this.userData;
   }
 }

@@ -45,9 +45,6 @@ const NavBar = ({ userData }: UserPropsInterface) => {
               <NavLink to={link.path}>{link.title}</NavLink>
             </li>
           ))}
-          <li>
-            <NavLink to={"/test"}>Somewhere</NavLink>
-          </li>
           <div className="flex gap-3 items-center">
             {!userData ? (
               <ConnectButton />

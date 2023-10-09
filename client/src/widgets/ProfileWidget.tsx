@@ -26,8 +26,11 @@ const ProfileWidget = ({ userData }: UserPropsInterface) => {
         <div className="stat-value text-gray-900 dark:text-gray-100 flex items-center gap-3">
           {userData ? userData.username : null}
         </div>
-        <button className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75">
-          Mean It
+        <button
+          onClick={() => updateUser({ username: "marcolinha" })}
+          className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75"
+        >
+          Update user
         </button>
       </div>
     </div>
