@@ -6,10 +6,12 @@ import {
   Param,
   Patch,
   Post,
+  Session,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { Address } from '@randlabs/myalgo-connect';
 
 let user;
 
@@ -24,14 +26,24 @@ export class UsersController {
   }
 
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
+  signupUser(@Body() body: CreateUserDto, @Session() session: any) {
     user = this.usersServices.create(body.walletAddress);
+
+    session.userId = user.id;
+
     return user;
   }
 
+  @Post()
+  signinUser(@Body() walletAddress: Address, @Session() session: any) {
+    this.usersServices.findOne(walletAddress);
+    session.userId = user.id;
+  }
+
   @Delete('/:address')
-  removeUser(@Param('address') address: string) {
+  removeUser(@Param('address') address: string, @Session() session: any) {
     user = this.usersServices.remove(address);
+
     return user;
   }
 
