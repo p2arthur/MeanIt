@@ -12,12 +12,24 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { Address } from '@randlabs/myalgo-connect';
+import { User } from './users.entity';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { AuthService } from 'src/auth/auth.service';
+import { SignInUserDto } from './dtos/sign-in.dto';
 
-let user;
+let user: User;
 
 @Controller('auth')
 export class UsersController {
-  constructor(private usersServices: UsersService) {}
+  constructor(
+    private usersServices: UsersService,
+    private authService: AuthService,
+  ) {}
+
+  @Get('/session')
+  getUserSession(@CurrentUser() currentUser: User) {
+    console.log('session:', currentUser);
+  }
 
   @Get('/:address')
   async findUser(@Param('address') address: string) {
@@ -26,23 +38,29 @@ export class UsersController {
   }
 
   @Post('/signup')
-  signupUser(@Body() body: CreateUserDto, @Session() session: any) {
-    user = this.usersServices.create(body.walletAddress);
+  async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
+    console.log('Body:', body);
+    console.log(session);
+    user = await this.usersServices.create(body.walletAddress);
 
     session.userId = user.id;
 
     return user;
   }
 
-  @Post()
-  signinUser(@Body() walletAddress: Address, @Session() session: any) {
-    this.usersServices.findOne(walletAddress);
-    session.userId = user.id;
+  @Post('/signin')
+  async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
+    console.log('receiving a request to signin', session);
+    const walletAddress = body.walletAddress;
+
+    const user = await this.authService.signin(walletAddress);
+    session.userId = user;
+    console.log(session.id);
   }
 
   @Delete('/:address')
-  removeUser(@Param('address') address: string, @Session() session: any) {
-    user = this.usersServices.remove(address);
+  async removeUser(@Param('address') address: string, @Session() session: any) {
+    user = await this.usersServices.remove(address);
 
     return user;
   }

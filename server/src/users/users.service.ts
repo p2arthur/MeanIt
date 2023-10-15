@@ -14,7 +14,7 @@ export class UsersService {
 
   //----------------------------------------------------------------------------
   async findOne(walletAddress: string) {
-    console.log(walletAddress);
+    console.log('Find One:', walletAddress);
     const user = await this.repo.findOne({ where: { walletAddress } });
     console.log(user);
     this.userData = user;
@@ -52,6 +52,17 @@ export class UsersService {
     } catch (error) {
       console.log(error);
     }
+  }
+  //----------------------------------------------------------------------------
+
+  //----------------------------------------------------------------------------
+
+  async find(walletAddress: string) {
+    const user = await this.repo.find({
+      where: { walletAddress: walletAddress },
+    });
+    console.log(user);
+    return user;
   }
   //----------------------------------------------------------------------------
 

@@ -15,7 +15,7 @@ export class Post {
   id: number;
 
   @Column()
-  content: string;
+  text_content: string;
 
   @ManyToOne(() => User, (user) => user.posts, { eager: true })
   user: User;
