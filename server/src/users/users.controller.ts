@@ -36,8 +36,8 @@ export class UsersController {
   }
 
   @Get('/:address')
-  async findUser(@Param('address') address: string) {
-    user = await this.usersServices.findOne(address);
+  async findUser(@Param('address') @CurrentUser() currentUser: User) {
+    user = await this.usersServices.findOne(currentUser.id);
     return user;
   }
 
@@ -45,7 +45,7 @@ export class UsersController {
   async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
     console.log('Body:', body);
     console.log(session);
-    user = await this.usersServices.create(body.walletAddress);
+    user = await this.usersServices.create(session.userId);
 
     session.userId = user.id;
 
@@ -64,18 +64,19 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Delete('/:address')
   async removeUser(@Param('address') address: string, @Session() session: any) {
-    user = await this.usersServices.remove(address);
+    user = await this.usersServices.remove(session.userId);
 
     return user;
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch('/:address')
   async updateUser(
     @Param('address') address: string,
     @Body() body: UpdateUserDto,
+    @Session() session: any,
   ) {
-    user = await this.usersServices.update(address, body);
+    user = await this.usersServices.update(session.userId, body);
     return user;
   }
 }

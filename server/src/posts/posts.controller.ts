@@ -24,7 +24,7 @@ export class PostsController {
     return allPosts;
   }
 
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post('/create')
   createPost(@CurrentUser() currentUser: User, @Body() body: CreatePostDto) {
     console.log('create post');
@@ -32,7 +32,7 @@ export class PostsController {
     console.log('create post');
     console.log(currentUser);
     console.log(body);
-    const postObject = Object.apply(body, {
+    const postObject = Object.assign(body, {
       creator_id: 1,
     });
     const post = this.postService.create(postObject, currentUser);

@@ -13,10 +13,10 @@ export class UsersService {
   }
 
   //----------------------------------------------------------------------------
-  async findOne(wallet_address: string) {
-    console.log('Find One:', wallet_address);
-    const user = await this.repo.findOne({
-      where: { wallet_address: wallet_address },
+  async findOne(id: number) {
+    console.log('Find One:', id);
+    const user = await this.repo.findOneBy({
+      id: id,
     });
     console.log(user);
     this.userData = user;
@@ -25,8 +25,8 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async create(wallet_address: string) {
-    const user = await this.findOne(wallet_address);
+  async create(id: number) {
+    const user = await this.findOne(id);
     console.log(user);
 
     if (user) {
@@ -35,15 +35,15 @@ export class UsersService {
     }
 
     try {
-      const nfd_username = await this.userUtils.getNfd(wallet_address);
+      const nfd_username = await this.userUtils.getNfd(user.wallet_address);
       console.log(nfd_username);
       const user_name =
         nfd_username === ''
-          ? this.userUtils.formatWalletAddress(wallet_address)
+          ? this.userUtils.formatWalletAddress(user.wallet_address)
           : nfd_username;
       console.log(nfd_username);
       const userData = this.repo.create({
-        wallet_address: wallet_address,
+        wallet_address: user.wallet_address,
         nfd_username: nfd_username,
         meanit_username: user_name,
         profile_picture:
@@ -69,8 +69,8 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async remove(walletAddress: string) {
-    const user = await this.findOne(walletAddress);
+  async remove(user_id: number) {
+    const user = await this.findOne(user_id);
     console.log(user);
     if (!user) {
       throw new NotFoundException();
@@ -82,8 +82,8 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async update(walletAddress: string, attributes: Partial<User>) {
-    const user = await this.findOne(walletAddress);
+  async update(user_id: number, attributes: Partial<User>) {
+    const user = await this.findOne(user_id);
     console.log('updating user');
     console.log(user);
     console.log(attributes);
