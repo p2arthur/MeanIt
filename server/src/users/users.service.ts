@@ -13,9 +13,11 @@ export class UsersService {
   }
 
   //----------------------------------------------------------------------------
-  async findOne(walletAddress: string) {
-    console.log('Find One:', walletAddress);
-    const user = await this.repo.findOne({ where: { walletAddress } });
+  async findOne(wallet_address: string) {
+    console.log('Find One:', wallet_address);
+    const user = await this.repo.findOne({
+      where: { wallet_address: wallet_address },
+    });
     console.log(user);
     this.userData = user;
     return this.userData;
@@ -23,8 +25,8 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async create(walletAddress: string) {
-    const user = await this.findOne(walletAddress);
+  async create(wallet_address: string) {
+    const user = await this.findOne(wallet_address);
     console.log(user);
 
     if (user) {
@@ -33,17 +35,17 @@ export class UsersService {
     }
 
     try {
-      const userNfd = await this.userUtils.getNfd(walletAddress);
-      console.log(userNfd);
-      const userName =
-        userNfd === ''
-          ? this.userUtils.formatWalletAddress(walletAddress)
-          : userNfd;
-      console.log(userNfd);
+      const nfd_username = await this.userUtils.getNfd(wallet_address);
+      console.log(nfd_username);
+      const user_name =
+        nfd_username === ''
+          ? this.userUtils.formatWalletAddress(wallet_address)
+          : nfd_username;
+      console.log(nfd_username);
       const userData = this.repo.create({
-        walletAddress,
-        nfd: userNfd,
-        username: userName,
+        wallet_address: wallet_address,
+        nfd_username: nfd_username,
+        meanit_username: user_name,
         profile_picture:
           'https://i.insider.com/61cc84b94710b10019c77960?width=500&format=jpeg&auto=webp',
       });
@@ -59,7 +61,7 @@ export class UsersService {
 
   async find(walletAddress: string) {
     const user = await this.repo.find({
-      where: { walletAddress: walletAddress },
+      where: { wallet_address: walletAddress },
     });
     console.log(user);
     return user;

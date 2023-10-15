@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -16,6 +17,7 @@ import { User } from './users.entity';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { AuthService } from 'src/auth/auth.service';
 import { SignInUserDto } from './dtos/sign-in.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 let user: User;
 
@@ -26,9 +28,11 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  @UseGuards(AuthGuard)
   @Get('/session')
   getUserSession(@CurrentUser() currentUser: User) {
     console.log('session:', currentUser);
+    return currentUser;
   }
 
   @Get('/:address')
@@ -51,13 +55,13 @@ export class UsersController {
   @Post('/signin')
   async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
     console.log('receiving a request to signin', session);
-    const walletAddress = body.walletAddress;
 
-    const user = await this.authService.signin(walletAddress);
+    const user = await this.authService.signin(body.wallet_address);
     session.userId = user;
     console.log(session.id);
   }
 
+  @UseGuards(AuthGuard)
   @Delete('/:address')
   async removeUser(@Param('address') address: string, @Session() session: any) {
     user = await this.usersServices.remove(address);
@@ -65,6 +69,7 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(AuthGuard)
   @Patch('/:address')
   async updateUser(
     @Param('address') address: string,

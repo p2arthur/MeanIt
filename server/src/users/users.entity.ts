@@ -15,13 +15,13 @@ export class User {
   id: number;
 
   @Column()
-  walletAddress: string;
+  wallet_address: string;
 
   @Column()
-  nfd: string | undefined;
+  nfd_username: string | undefined;
 
   @Column()
-  username: string;
+  meanit_username: string;
 
   @Column()
   profile_picture: string;
@@ -31,16 +31,16 @@ export class User {
 
   @AfterInsert()
   logInsert() {
-    console.log('Inserted user with wallet address:', this.walletAddress);
+    console.log('Inserted user with wallet address:', this.wallet_address);
   }
 
   @AfterUpdate()
   logUpdate() {
-    console.log('Updated user with wallet address:', this.walletAddress);
+    console.log('Updated user with wallet address:', this.wallet_address);
   }
 
   @AfterRemove()
   logRemove() {
-    console.log('Updated user with wallet address:', this.walletAddress);
+    console.log('Updated user with wallet address:', this.wallet_address);
   }
 }

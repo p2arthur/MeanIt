@@ -17,6 +17,12 @@ export class Post {
   @Column()
   text_content: string;
 
+  @Column()
+  media: string;
+
+  @Column()
+  creator_id: number;
+
   @ManyToOne(() => User, (user) => user.posts, { eager: true })
   user: User;
 

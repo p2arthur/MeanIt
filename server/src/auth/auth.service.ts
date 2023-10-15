@@ -27,13 +27,13 @@ export class AuthService {
   //----------------------------------------------------------------------------
   async signin(walletAddress: string) {
     console.log('signing wallet address', walletAddress);
-    const user = await this.usersService.find(walletAddress);
+    // const user = await this.usersService.find(walletAddress);
 
-    if (!user) {
-      throw new NotFoundException('User with the given email not found');
-    }
+    // if (!user) {
+    //   throw new NotFoundException('User with the given email not found');
+    // }
 
-    return user;
+    // return user;
   }
   //----------------------------------------------------------------------------
 }

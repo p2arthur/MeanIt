@@ -2,5 +2,5 @@ import { IsString } from 'class-validator';
 
 export class SignInUserDto {
   @IsString()
-  walletAddress: string;
+  wallet_address: string;
 }
