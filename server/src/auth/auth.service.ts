@@ -25,7 +25,9 @@ export class AuthService {
 
   //----------------------------------------------------------------------------
   async signin(walletAddress: string) {
+    console.log('signin find user walletAddresss:', walletAddress);
     const user = await this.usersService.find(walletAddress);
+    console.log('signin find user:', user);
     if (!user) {
       throw new NotFoundException('');
     }

@@ -19,7 +19,8 @@ export class accountServices {
 
   //----------------------------------------------------------------------------
   private async createAccount(walletAddress: string) {
-    const requestData = { wallet_address: walletAddress };
+    const requestData = { walletAddress };
+    console.log("create account");
 
     const response = await axios.post(
       `${config.url}/auth/signup`,
