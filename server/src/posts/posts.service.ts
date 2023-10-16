@@ -12,23 +12,25 @@ export class PostsService {
 
   async create(postDto: CreatePostDto, user: User) {
     const postInstance = this.repo.create(postDto);
-    postInstance.user = user;
+    console.log(postInstance);
     this.post = await this.repo.save(postInstance);
     return this.post;
   }
 
   async getAllPosts(): Promise<Partial<Post>[]> {
     const posts = await this.repo.find();
-    return posts.map((post) => {
-      return {
-        id: post.id,
-        user: post.user,
-        creation_date: new Date(),
-        post_id: post.id,
-        creator_id: post.creator_id,
-        text_content: post.text_content,
-        media: 'https://d1dh0spncfsutm.cloudfront.net/meanit-logo.png',
-      };
-    });
+    return posts
+      .map((post) => {
+        return {
+          id: post.id,
+          user: post.user,
+          creation_date: new Date(),
+          post_id: post.id,
+          creator_id: post.creator_id,
+          text_content: post.text_content,
+          media: 'https://d1dh0spncfsutm.cloudfront.net/meanit-logo.png',
+        };
+      })
+      .sort((postA, postB) => postB.post_id - postA.post_id);
   }
 }

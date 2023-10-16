@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import formatDateFromTimestamp from "../utils/formatDateFromTimestamp";
 
 const PostCard = (post: postInterface) => {
+  console.log("Post", post);
   const navigate = useNavigate();
 
   const handleLikeClick = (event) => {

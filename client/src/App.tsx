@@ -92,9 +92,16 @@ const App = () => {
   //--------------------------------------------------------------------------
 
   const addPost = async (newPost: postInterface) => {
+    console.log("New Post", newPost);
+    Object.assign(newPost, {
+      creator_id: userData?.id,
+      post_id: postsList.length + 1,
+    });
     const newPostsList = [...postsList, newPost];
     postsService.createPost(newPost.text_content, userData as UserInterface);
-    setPostsList(newPostsList);
+    setPostsList(
+      newPostsList.sort((post1, post2) => post2.post_id - post1.post_id)
+    );
   };
 
   //--------------------------------------------------------------------------

@@ -29,10 +29,7 @@ export class PostsController {
   createPost(@CurrentUser() currentUser: User, @Body() body: CreatePostDto) {
     console.log('Current user:', currentUser);
 
-    const postObject = Object.assign(body, {
-      creator_id: 1,
-    });
-    const post = this.postService.create(postObject, currentUser);
+    const post = this.postService.create(body, currentUser);
     return post;
   }
 }
