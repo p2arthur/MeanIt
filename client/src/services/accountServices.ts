@@ -28,7 +28,7 @@ export class accountServices {
     console.log(requestData);
     const response = await axios.post(
       `${config.url}/auth/signup`,
-      requestData.walletAddress,
+      requestData,
       {
         headers: {
           "Content-Type": "application/json",

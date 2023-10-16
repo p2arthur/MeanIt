@@ -51,7 +51,7 @@ export class UsersController {
     console.log('body', body);
     const user = await this.authService.signup(body.walletAddress);
     console.log('signupUser:', user);
-    session.userId = session.userId;
+    session.userId = user.userId;
     return user;
   }
 
