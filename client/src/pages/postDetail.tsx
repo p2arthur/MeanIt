@@ -13,16 +13,12 @@ const PostDetail = () => {
   const { postsList } = useOutletContext<{ postsList: postInterface[] }>();
 
   const { postId } = useParams();
-  console.log(postId);
-
   const post: postInterface = postsList.filter(
     (post: postInterface) => post.postId === postId
   )[0];
 
   useEffect(() => {
-    return () => {
-      console.log("Post detail");
-    };
+    return () => {};
   }, []);
 
   return (

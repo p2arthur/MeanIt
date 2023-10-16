@@ -6,15 +6,11 @@ export class accountServices {
 
   //----------------------------------------------------------------------------
   public async getAccount(walletAddress: string) {
-    console.log("Getting account");
     const response = await axios.get(`${config.url}/auth/${walletAddress}`);
 
     this.userData = response.data;
 
-    console.log("accountService user Data:", this.userData);
-
     if (walletAddress && !this.userData) {
-      console.log("Creating account");
       await this.createAccount(walletAddress);
     }
     return this.userData;
@@ -25,7 +21,6 @@ export class accountServices {
   private async createAccount(walletAddress: string) {
     const requestData = { wallet_address: walletAddress };
 
-    console.log(requestData);
     const response = await axios.post(
       `${config.url}/auth/signup`,
       requestData,
@@ -36,16 +31,12 @@ export class accountServices {
       }
     );
 
-    console.log("Create account service response", response);
-
     this.userData = response.data;
   }
   //----------------------------------------------------------------------------
 
   public async signinUser(walletAddress: string) {
     const requestData = { wallet_address: walletAddress };
-    console.log("requestData:", requestData);
-
     const innerConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -58,8 +49,6 @@ export class accountServices {
       requestData,
       innerConfig
     );
-
-    console.log("signInUser axios response", response);
   }
 
   //----------------------------------------------------------------------------
@@ -82,8 +71,6 @@ export class accountServices {
         },
       }
     );
-
-    console.log(response);
 
     this.userData = response.data;
     return this.userData;

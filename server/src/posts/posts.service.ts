@@ -11,7 +11,6 @@ export class PostsService {
   private post: Post;
 
   async create(postDto: CreatePostDto, user: User) {
-    console.log('postDto:', postDto);
     const postInstance = this.repo.create(postDto);
     postInstance.user = user;
     this.post = await this.repo.save(postInstance);
@@ -19,9 +18,7 @@ export class PostsService {
   }
 
   async getAllPosts(): Promise<Partial<Post>[]> {
-    console.log('getting all posts');
     const posts = await this.repo.find();
-    console.log(posts);
     return posts.map((post) => {
       return {
         id: post.id,

@@ -34,9 +34,7 @@ const TextBox = ({ addPost }) => {
         creator_id: 1,
         text_content: postText,
       });
-      console.log("Creating post textbox");
     } else {
-      console.log("Please connect a wallet to post");
     }
   };
 

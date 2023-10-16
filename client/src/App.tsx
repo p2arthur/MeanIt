@@ -42,32 +42,24 @@ const App = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(`${config.url}/posts/all`);
-      console.log("postsListData", data);
       setPostsList(data);
-    } catch (error) {
-      console.log("Error fetching posts");
-    }
+    } catch (error) {}
   };
   //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
   const fetchUser = async () => {
     if (activeAccount) {
-      console.log(activeAccount.address);
-      console.log("Serching account");
       const data = await accountService.getAccount(activeAccount.address);
-      console.log("data:", data);
       setUserData(data);
     }
   };
   //--------------------------------------------------------------------------
 
   const updateUser = async (attributes: Partial<UserInterface>) => {
-    console.log("Updating user");
     if (!activeAccount) {
       return;
     }
-    console.log("updating user");
     const userData = await accountService.updateAccount(
       activeAccount?.address,
       attributes
@@ -76,8 +68,6 @@ const App = () => {
   };
 
   const signinUser = async () => {
-    console.log("signin in a user");
-
     const walletAddress = activeAccount?.address;
 
     if (!walletAddress) {
@@ -102,23 +92,9 @@ const App = () => {
   //--------------------------------------------------------------------------
 
   const addPost = async (newPost: postInterface) => {
-    console.log("Adding post");
-    Object.assign(newPost, { userId: 1 });
-    console.log("newPost", newPost);
     const newPostsList = [...postsList, newPost];
-    console.log("newPostList", newPostsList);
-    postsService.createPost(
-      {
-        id: 1,
-        nfd: "string",
-        meanit_username: "string",
-        walletAddress: "string",
-        profile_picture: "string",
-      },
-      "asdasdasdasdasd"
-    );
+    postsService.createPost(newPost.text_content, userData as UserInterface);
     setPostsList(newPostsList);
-    console.log("PostList2:", postsList);
   };
 
   //--------------------------------------------------------------------------

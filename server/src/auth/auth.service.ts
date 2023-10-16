@@ -10,10 +10,7 @@ export class AuthService {
 
   //----------------------------------------------------------------------------
   async signup(walletAddress: string) {
-    console.log('walletAddress:', walletAddress);
     const users: User[] = await this.usersService.find(walletAddress);
-    console.log(users);
-
     const userExists: boolean = users.length > 0;
 
     //See if walletAddress is already in use
@@ -22,18 +19,13 @@ export class AuthService {
     }
 
     const user = await this.usersService.create(walletAddress);
-    console.log('created user:', user);
-
     return user;
   }
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
   async signin(walletAddress: string) {
-    console.log('signing wallet addressssss', walletAddress);
     const user = await this.usersService.find(walletAddress);
-    console.log('signing find:', user);
-
     if (!user) {
       throw new NotFoundException('');
     }

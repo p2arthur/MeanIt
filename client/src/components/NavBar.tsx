@@ -23,9 +23,7 @@ const NavBar = ({ userData }: UserPropsInterface) => {
     navigate("/");
   }, [activeAccount]);
 
-  useEffect(() => {
-    console.log("Navbar userdata changed", userData);
-  }, [userData]);
+  useEffect(() => {}, [userData]);
 
   return (
     <div className="navbar bg-base-100 fixed z-30">

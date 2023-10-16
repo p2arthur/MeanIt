@@ -5,8 +5,6 @@ import { BiBadgeCheck } from "react-icons/bi";
 import { UserPropsInterface } from "../interfaces/user-props-interface";
 
 const ProfileWidget = ({ userData }: UserPropsInterface) => {
-  console.log("profileWidgetuser", userData);
-
   const updateUser = () => {};
 
   return (

@@ -1,4 +1,4 @@
-import { IsString, Length } from 'class-validator';
+import { IsInt, IsNumber, IsString, Length } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -7,6 +7,6 @@ export class CreatePostDto {
   @IsString()
   media: string;
 
-  @IsString()
+  @IsInt()
   creator_id: number;
 }

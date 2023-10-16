@@ -31,45 +31,27 @@ export class UsersController {
   // @UseGuards(AuthGuard)
   @Get('/session')
   getUserSession(@CurrentUser() currentUser: User, @Session() session: any) {
-    session.userId = 1;
-    console.log(session);
-    console.log('sessionn:', currentUser);
-
     return session;
   }
 
   @Post('/signin')
   async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
-    console.log(body);
-    console.log('receiving a request to signinn', session);
-    session.userId = 1;
     const user = await this.authService.signin(body.wallet_address);
-    console.log('signinuser:', user);
     const userId = user[0].id;
     session.userId = userId;
-    console.log('Userrr:', user);
-    console.log('UserId:', session.userId);
-
     return session;
   }
 
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    console.log('body', body);
     const user = await this.authService.signup(body.walletAddress);
-    console.log('signupUser:', user);
     session.userId = user.id;
-    console.log(session);
     return user;
   }
 
   @Get('/signout')
   async signoutUser(@Session() session: any) {
-    console.log('signout');
-    console.log('pre signout session');
     session.userId = null;
-    console.log('post signout session');
-
     return session;
   }
 
@@ -79,7 +61,6 @@ export class UsersController {
     @CurrentUser() currentUser: User,
   ) {
     const usersArray = await this.usersServices.find(wallet_address);
-    console.log('usersArray:', usersArray);
     user = usersArray[0];
     return user;
   }

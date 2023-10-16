@@ -30,17 +30,11 @@ export class User {
   posts: Post[];
 
   @AfterInsert()
-  logInsert() {
-    console.log('Inserted user with wallet address:', this.wallet_address);
-  }
+  logInsert() {}
 
   @AfterUpdate()
-  logUpdate() {
-    console.log('Updated user with wallet address:', this.wallet_address);
-  }
+  logUpdate() {}
 
   @AfterRemove()
-  logRemove() {
-    console.log('Updated user with wallet address:', this.wallet_address);
-  }
+  logRemove() {}
 }

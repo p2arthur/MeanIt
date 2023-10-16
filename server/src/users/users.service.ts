@@ -14,11 +14,9 @@ export class UsersService {
 
   //----------------------------------------------------------------------------
   async findOne(id: number) {
-    console.log('Find One:', id);
     const user = await this.repo.findOneBy({
       id: id,
     });
-    console.log(user);
     this.userData = user;
     return this.userData;
   }
@@ -28,21 +26,16 @@ export class UsersService {
   async create(walletAddress: string) {
     const users = await this.find(walletAddress);
     const user = users[0];
-    console.log(user);
-
     if (user) {
-      console.log('user already exists');
       return user;
     }
 
     try {
       const nfd_username = await this.userUtils.getNfd(walletAddress);
-      console.log(nfd_username);
       const user_name =
         nfd_username === ''
           ? this.userUtils.formatWalletAddress(walletAddress)
           : nfd_username;
-      console.log(nfd_username);
       const userData = this.repo.create({
         wallet_address: walletAddress,
         nfd_username: nfd_username,
@@ -52,16 +45,13 @@ export class UsersService {
       });
       this.userData = await this.repo.save(userData);
       return this.userData;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
 
   async find(wallet_address: string) {
-    console.log('find wallet address', wallet_address);
     const user = await this.repo.find({
       where: { wallet_address },
     });
@@ -73,7 +63,6 @@ export class UsersService {
   //----------------------------------------------------------------------------
   async remove(user_id: number) {
     const user = await this.findOne(user_id);
-    console.log(user);
     if (!user) {
       throw new NotFoundException();
     }
@@ -86,10 +75,6 @@ export class UsersService {
   //----------------------------------------------------------------------------
   async update(user_id: number, attributes: Partial<User>) {
     const user = await this.findOne(user_id);
-    console.log('updating user');
-    console.log(user);
-    console.log(attributes);
-
     if (!user) {
       throw new NotFoundException();
     }
