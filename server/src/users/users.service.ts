@@ -25,8 +25,9 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async create(id: number) {
-    const user = await this.findOne(id);
+  async create(walletAddress: string) {
+    const users = await this.find(walletAddress);
+    const user = users[0];
     console.log(user);
 
     if (user) {
@@ -35,15 +36,15 @@ export class UsersService {
     }
 
     try {
-      const nfd_username = await this.userUtils.getNfd(user.wallet_address);
+      const nfd_username = await this.userUtils.getNfd(walletAddress);
       console.log(nfd_username);
       const user_name =
         nfd_username === ''
-          ? this.userUtils.formatWalletAddress(user.wallet_address)
+          ? this.userUtils.formatWalletAddress(walletAddress)
           : nfd_username;
       console.log(nfd_username);
       const userData = this.repo.create({
-        wallet_address: user.wallet_address,
+        wallet_address: walletAddress,
         nfd_username: nfd_username,
         meanit_username: user_name,
         profile_picture:
@@ -59,11 +60,12 @@ export class UsersService {
 
   //----------------------------------------------------------------------------
 
-  async find(walletAddress: string) {
+  async find(wallet_address: string) {
+    console.log('find wallet address', wallet_address);
     const user = await this.repo.find({
-      where: { wallet_address: walletAddress },
+      where: { wallet_address },
     });
-    console.log(user);
+
     return user;
   }
   //----------------------------------------------------------------------------

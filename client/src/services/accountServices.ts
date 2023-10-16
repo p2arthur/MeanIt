@@ -11,6 +11,8 @@ export class accountServices {
 
     this.userData = response.data;
 
+    console.log("accountService user Data:", this.userData);
+
     if (walletAddress && !this.userData) {
       console.log("Creating account");
       await this.createAccount(walletAddress);
@@ -23,15 +25,19 @@ export class accountServices {
   private async createAccount(walletAddress: string) {
     const requestData = { walletAddress };
 
+    console.log(requestData);
     const response = await axios.post(
       `${config.url}/auth/signup`,
-      requestData,
+      requestData.walletAddress,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+
+    console.log("Create account service response", response);
+
     this.userData = response.data;
   }
   //----------------------------------------------------------------------------

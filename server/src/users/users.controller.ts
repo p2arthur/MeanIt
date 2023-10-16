@@ -36,19 +36,22 @@ export class UsersController {
   }
 
   @Get('/:address')
-  async findUser(@Param('address') @CurrentUser() currentUser: User) {
-    user = await this.usersServices.findOne(currentUser.id);
+  async findUser(
+    @Param('address') wallet_address: string,
+    @CurrentUser() currentUser: User,
+  ) {
+    const usersArray = await this.usersServices.find(wallet_address);
+    console.log('usersArray:', usersArray);
+    user = usersArray[0];
     return user;
   }
 
   @Post('/signup')
-  async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
-    console.log('Body:', body);
-    console.log(session);
-    user = await this.usersServices.create(session.userId);
-
-    session.userId = user.id;
-
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    console.log('body', body);
+    const user = await this.authService.signup(body.walletAddress);
+    console.log('signupUser:', user);
+    session.userId = session.userId;
     return user;
   }
 

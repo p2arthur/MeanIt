@@ -22,16 +22,16 @@ const FeedList = (): JSX.Element => {
     renderedPosts = postsList.map((post) => {
       return (
         <PostCard
-          key={post.postId}
-          postId={post.postId}
-          creationDate={post.creationDate}
-          creator={post.creator}
-          content={post.content}
-          interactions={{
-            likes: post.interactions.likes,
-            comments: post.interactions.comments,
-            donations: post.interactions.donations,
-          }}
+          text_content={post.text_content}
+          key={post.post_id}
+          post_id={post.post_id}
+          creation_date={post.creation_date}
+          creator_id={post.creator_id}
+          //   interactions={{
+          //     likes: post.interactions.likes,
+          //     comments: post.interactions.comments,
+          //     donations: post.interactions.donations,
+          //   }}
         />
       );
     });

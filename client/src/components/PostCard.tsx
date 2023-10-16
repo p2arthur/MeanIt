@@ -14,13 +14,13 @@ const PostCard = (post: postInterface) => {
     // ...
   };
 
-  const { time, measure } = formatDateFromTimestamp(post.creationDate);
+  // const { time, measure } = formatDateFromTimestamp(post.creationDate);
 
   return (
-    <div key={post.postId}>
+    <div key={post.post_id}>
       <div className="bg-gray-100 dark:bg-gray-950 p-5 border border-transparent hover:border-gray-300 dark:hover:border-gray-900 hover:scale-101 transition-all cursor-pointer">
         <div
-          onClick={() => navigate(`/posts/${post.postId}`)}
+          onClick={() => navigate(`/posts/${post.post_id}`)}
           className="flex flex-col"
         >
           <div className="flex flex-col gap-2">
@@ -28,19 +28,17 @@ const PostCard = (post: postInterface) => {
               <div className="flex gap-3 items-center">
                 <div className="w-12 border-2 border-cyan-500 h-12 rounded-full bg-gray-300 dark:bg-gray-900 hover:scale-110 transition-all duration-75"></div>
                 <h3 className="text-gray-950 dark:text-gray-200 text-xl font-semibold">
-                  {formatWalletAddress(post.creator)}
+                  {post.creator_id}
                 </h3>
               </div>
-              <span>
-                {time} {measure} ago
-              </span>
+              <span>1 hour - ago</span>
             </div>
             <div className="w-full">
               <p
                 className="text-gray-950 dark:text-gray-400 text-sm md:text-lg w-full"
                 style={{ overflowWrap: "break-word" }}
               >
-                {post.content}
+                {post.text_content}
               </p>
             </div>
             <ul className="flex gap-5">
@@ -58,7 +56,7 @@ const PostCard = (post: postInterface) => {
               <div className="group transition-all rounded-full bg-transparent hover:bg-gray-900 dark:hover:bg-gray-100 p-1">
                 <BiLike className="transition-all group-hover:text-gray-100 dark:group-hover:text-gray-950 text-xl" />
               </div>
-              <p>{post.interactions.likes}</p>
+              {/* <p>{post.interactions.likes}</p> */}
             </div>
 
             <div className="flex flex-col items-center">
@@ -66,14 +64,14 @@ const PostCard = (post: postInterface) => {
                 <BiDonateHeart className="transition-all group-hover:text-gray-100 dark:group-hover:text-gray-950 text-xl" />
               </div>
 
-              <p>{post.interactions.donations}</p>
+              {/* <p>{post.interactions.donations}</p> */}
             </div>
 
             <div className="flex flex-col items-center">
               <div className="group transition-all rounded-full bg-transparent hover:bg-gray-900 dark:hover:bg-gray-100 p-1">
                 <BiComment className="transition-all group-hover:text-gray-100 dark:group-hover:text-gray-950 text-xl" />
               </div>
-              <p>{post.interactions.comments.length}</p>
+              {/* <p>{post.interactions.comments.length}</p> */}
             </div>
           </div>
         </div>

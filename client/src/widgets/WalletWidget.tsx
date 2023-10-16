@@ -8,11 +8,18 @@ import { UserPropsInterface } from "../interfaces/user-props-interface";
 const WalletWidget = ({ userData }: UserPropsInterface) => {
   const { activeAccount, providers } = useWallet();
 
+  console.log("User Data:", userData);
+
   const navigate = useNavigate();
 
   const provider = providers?.filter(
     (provider) => provider.metadata.id === activeAccount?.providerId
   );
+
+  if (!userData) {
+    return <div>Connect</div>;
+  }
+
   return (
     <div className="dropdown dropdown-end">
       <div className="flex bg-gray-950 items-center rounded-full px-2 ">
@@ -27,7 +34,7 @@ const WalletWidget = ({ userData }: UserPropsInterface) => {
               alt="account-avatar"
             />
           </div>
-          <p>{userData ? userData.username : null}</p>
+          <p>{userData ? userData.meanit_username : null}</p>
         </label>
       </div>
       <ul

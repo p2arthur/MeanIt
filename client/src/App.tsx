@@ -39,7 +39,7 @@ const App = () => {
   //--------------------------------------------------------------------------
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get(`${config.url}/posts`);
+      const { data } = await axios.get(`${config.url}/posts/all`);
       console.log("postsListData", data);
       setPostsList(data);
     } catch (error) {
@@ -51,8 +51,10 @@ const App = () => {
   //--------------------------------------------------------------------------
   const fetchUser = async () => {
     if (activeAccount) {
+      console.log(activeAccount.address);
       console.log("Serching account");
       const data = await accountService.getAccount(activeAccount.address);
+      console.log("data:", data);
       setUserData(data);
     }
   };
@@ -70,6 +72,10 @@ const App = () => {
     );
     setUserData(userData);
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   //--------------------------------------------------------------------------
   useEffect(() => {
