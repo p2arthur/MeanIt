@@ -75,6 +75,18 @@ const App = () => {
     setUserData(userData);
   };
 
+  const signinUser = async () => {
+    console.log("signin in a user");
+
+    const walletAddress = activeAccount?.address;
+
+    if (!walletAddress) {
+      return;
+    }
+    const user = await accountService.signinUser(walletAddress);
+    return user;
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -82,6 +94,7 @@ const App = () => {
   //--------------------------------------------------------------------------
   useEffect(() => {
     if (activeAccount) {
+      signinUser();
       fetchUser();
     }
     setUserData(undefined);

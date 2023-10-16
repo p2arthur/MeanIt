@@ -2,6 +2,15 @@ POST http://localhost:3000/auth/signup
 content-type:application/json
 
 {
-"walletAddress": 1234
+"wallet_address": "AENCK6AVVGCOQM6XGSGTSMZXVHV34QDAHH7RDH226GLD55U34BLT6YP5L4"
+}
 
+
+###
+
+POST http://localhost:3000/auth/signin
+content-type:application/json
+
+{
+"wallet_address": "AENCK6AVVGCOQM6XGSGTSMZXVHV34QDAHH7RDH226GLD55U34BLT6YP5L4"
 }

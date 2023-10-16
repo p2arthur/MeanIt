@@ -21,18 +21,56 @@ import { AuthGuard } from 'src/guards/auth.guard';
 
 let user: User;
 
-@Controller('auth')
+@Controller('/auth')
 export class UsersController {
   constructor(
     private usersServices: UsersService,
     private authService: AuthService,
   ) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get('/session')
-  getUserSession(@CurrentUser() currentUser: User) {
-    console.log('session:', currentUser);
-    return currentUser;
+  getUserSession(@CurrentUser() currentUser: User, @Session() session: any) {
+    session.userId = 1;
+    console.log(session);
+    console.log('sessionn:', currentUser);
+
+    return session;
+  }
+
+  @Post('/signin')
+  async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
+    console.log(body);
+    console.log('receiving a request to signinn', session);
+    session.userId = 1;
+    const user = await this.authService.signin(body.wallet_address);
+    console.log('signinuser:', user);
+    const userId = user[0].id;
+    session.userId = userId;
+    console.log('Userrr:', user);
+    console.log('UserId:', session.userId);
+
+    return session;
+  }
+
+  @Post('/signup')
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    console.log('body', body);
+    const user = await this.authService.signup(body.walletAddress);
+    console.log('signupUser:', user);
+    session.userId = user.id;
+    console.log(session);
+    return user;
+  }
+
+  @Get('/signout')
+  async signoutUser(@Session() session: any) {
+    console.log('signout');
+    console.log('pre signout session');
+    session.userId = null;
+    console.log('post signout session');
+
+    return session;
   }
 
   @Get('/:address')
@@ -46,40 +84,22 @@ export class UsersController {
     return user;
   }
 
-  @Post('/signup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    console.log('body', body);
-    const user = await this.authService.signup(body.walletAddress);
-    console.log('signupUser:', user);
-    session.userId = user.userId;
-    return user;
-  }
-
-  @Post('/signin')
-  async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
-    console.log('receiving a request to signinn', session);
-
-    const user = await this.authService.signin(body.wallet_address);
-    session.userId = user;
-    console.log(session.id);
-  }
-
-  @UseGuards(AuthGuard)
-  @Delete('/:address')
-  async removeUser(@Param('address') address: string, @Session() session: any) {
-    user = await this.usersServices.remove(session.userId);
-
-    return user;
-  }
-
   // @UseGuards(AuthGuard)
-  @Patch('/:address')
-  async updateUser(
-    @Param('address') address: string,
-    @Body() body: UpdateUserDto,
-    @Session() session: any,
-  ) {
-    user = await this.usersServices.update(session.userId, body);
-    return user;
-  }
+  // @Delete('/:address')
+  // async removeUser(@Param('address') address: string, @Session() session: any) {
+  //   user = await this.usersServices.remove(session.userId);
+
+  //   return user;
+  // }
+
+  // // @UseGuards(AuthGuard)
+  // @Patch('/:address')
+  // async updateUser(
+  //   @Param('address') address: string,
+  //   @Body() body: UpdateUserDto,
+  //   @Session() session: any,
+  // ) {
+  //   user = await this.usersServices.update(session.userId, body);
+  //   return user;
+  // }
 }

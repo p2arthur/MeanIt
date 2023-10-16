@@ -23,7 +23,7 @@ export class accountServices {
 
   //----------------------------------------------------------------------------
   private async createAccount(walletAddress: string) {
-    const requestData = { walletAddress };
+    const requestData = { wallet_address: walletAddress };
 
     console.log(requestData);
     const response = await axios.post(
@@ -41,6 +41,26 @@ export class accountServices {
     this.userData = response.data;
   }
   //----------------------------------------------------------------------------
+
+  public async signinUser(walletAddress: string) {
+    const requestData = { wallet_address: walletAddress };
+    console.log("requestData:", requestData);
+
+    const innerConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    };
+
+    const response = await axios.post(
+      `${config.url}/auth/signin`,
+      requestData,
+      innerConfig
+    );
+
+    console.log("signInUser axios response", response);
+  }
 
   //----------------------------------------------------------------------------
   public async updateAccount(

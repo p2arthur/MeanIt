@@ -4,8 +4,12 @@ export const CurrentUser = createParamDecorator(
   (data: never, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest();
     const session = request.session;
-    console.log('Guard session', session);
+    console.log('@current-user session', session);
 
-    return session.userId;
+    const loggedUserId = session.userId;
+
+    console.log(session.userId);
+
+    return request.currentUser;
   },
 );
