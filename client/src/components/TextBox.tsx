@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import ConnectButton from "./ConnectButton";
 import { postServices } from "../services/postServices";
 
-const TextBox = () => {
+const TextBox = ({ addPost }) => {
   const [postText, setPostText] = useState("");
   const { providers, activeAccount } = useWallet();
 
@@ -28,7 +28,13 @@ const TextBox = () => {
   const handleCreatePost = (event: FormEvent) => {
     event.preventDefault();
     if (activeAccount) {
-      postsServices.createPost(activeAccount, postText);
+      addPost({
+        creation_date: new Date(),
+        post_id: 1,
+        creator_id: 1,
+        text_content: postText,
+      });
+      console.log("Creating post textbox");
     } else {
       console.log("Please connect a wallet to post");
     }

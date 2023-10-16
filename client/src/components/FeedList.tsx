@@ -19,11 +19,11 @@ const FeedList = (): JSX.Element => {
   let renderedPosts: ReactNode;
 
   if (postsList.length > 0) {
-    renderedPosts = postsList.map((post) => {
+    renderedPosts = postsList.map((post, index) => {
       return (
         <PostCard
           text_content={post.text_content}
-          key={post.post_id}
+          key={index}
           post_id={post.post_id}
           creation_date={post.creation_date}
           creator_id={post.creator_id}

@@ -57,7 +57,7 @@ export class UsersController {
 
   @Post('/signin')
   async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
-    console.log('receiving a request to signin', session);
+    console.log('receiving a request to signinn', session);
 
     const user = await this.authService.signin(body.wallet_address);
     session.userId = user;

@@ -18,12 +18,13 @@ import { UserInterface } from "./interfaces/user-interface";
 import { config } from "./config";
 import { DeflyWalletConnect } from "@blockshake/defly-connect";
 import { PeraWalletConnect } from "@perawallet/connect";
+import { postServices } from "./services/postServices";
 
 //--------------------------------------------------------------------------
 
 const App = () => {
   //--------------------------------------------------------------------------
-  const { activeAccount, providers } = useWallet();
+  const { activeAccount } = useWallet();
   const [postsList, setPostsList] = useState<postInterface[]>([]);
   const [userData, setUserData] = useState<UserInterface>();
   const walletProviders = useInitializeProviders({
@@ -34,6 +35,7 @@ const App = () => {
   });
 
   const accountService = new accountServices();
+  const postsService = new postServices();
   //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
@@ -86,6 +88,26 @@ const App = () => {
   }, [activeAccount]);
   //--------------------------------------------------------------------------
 
+  const addPost = async (newPost: postInterface) => {
+    console.log("Adding post");
+    Object.assign(newPost, { userId: 1 });
+    console.log("newPost", newPost);
+    const newPostsList = [...postsList, newPost];
+    console.log("newPostList", newPostsList);
+    postsService.createPost(
+      {
+        id: 1,
+        nfd: "string",
+        meanit_username: "string",
+        walletAddress: "string",
+        profile_picture: "string",
+      },
+      "asdasdasdasdasd"
+    );
+    setPostsList(newPostsList);
+    console.log("PostList2:", postsList);
+  };
+
   //--------------------------------------------------------------------------
   const router = createBrowserRouter([
     {
@@ -97,7 +119,7 @@ const App = () => {
       ),
 
       children: [
-        { path: "/", element: <HomePage /> },
+        { path: "/", element: <HomePage addPost={addPost} /> },
         { path: "/profile", element: <ProfilePage updateUser={updateUser} /> },
         { path: "/posts/:postId", element: <PostDetail /> },
       ],
