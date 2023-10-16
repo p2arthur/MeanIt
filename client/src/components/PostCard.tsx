@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import formatDateFromTimestamp from "../utils/formatDateFromTimestamp";
 
 const PostCard = (post: postInterface) => {
-  console.log("Post", post);
   const navigate = useNavigate();
+
+  const postTimeDisplay = formatDateFromTimestamp(post.creation_date);
 
   const handleLikeClick = (event) => {
     // Prevent the click event from propagating up to the parent div
@@ -32,7 +33,10 @@ const PostCard = (post: postInterface) => {
                   {post.creator_id}
                 </h3>
               </div>
-              <span>1 hour - ago</span>
+              <span>
+                {`${postTimeDisplay.time} ${postTimeDisplay.measure} ago`}
+                {}
+              </span>
             </div>
             <div className="w-full">
               <p

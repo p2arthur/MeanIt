@@ -1,26 +1,20 @@
-const formatDateFromTimestamp = (timestamp: number) => {
-  const currentDate: number = Number(new Date());
+const formatDateFromTimestamp = (timestamp: string) => {
+  const currentDate = new Date().getTime();
+  const inputDate = new Date(timestamp).getTime();
 
-  const differenceInMilliseconds = currentDate - timestamp;
-  const millisecondsInAMinute = 1000 * 60;
-  const millisecondsInAnHour = 1000 * 60 * 60;
-  const millisecondsInADay = 1000 * 60 * 60 * 24;
+  const differenceInSeconds = Math.floor((currentDate - inputDate) / 1000);
 
-  const minutesPassed = Math.floor(
-    differenceInMilliseconds / millisecondsInAMinute
-  );
-  const hoursPassed = Math.floor(
-    differenceInMilliseconds / millisecondsInAnHour
-  );
-  const daysPassed = Math.floor(differenceInMilliseconds / millisecondsInADay);
-
-  if (daysPassed > 1) {
-    return { time: daysPassed, measure: "days" };
+  if (differenceInSeconds < 60) {
+    return { time: differenceInSeconds, measure: "seconds" };
+  } else if (differenceInSeconds < 3600) {
+    const minutes = Math.floor(differenceInSeconds / 60);
+    return { time: minutes, measure: "minutes" };
+  } else if (differenceInSeconds < 86400) {
+    const hours = Math.floor(differenceInSeconds / 3600);
+    return { time: hours, measure: "hours" };
   } else {
-    if (hoursPassed < 1) {
-      return { time: minutesPassed, measure: "minutes" };
-    }
-    return { time: hoursPassed, measure: "hours" };
+    const days = Math.floor(differenceInSeconds / 86400);
+    return { time: days, measure: "days" };
   }
 };
 

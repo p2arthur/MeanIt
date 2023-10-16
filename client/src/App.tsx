@@ -42,6 +42,7 @@ const App = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(`${config.url}/posts/all`);
+
       setPostsList(data);
     } catch (error) {}
   };
@@ -92,7 +93,6 @@ const App = () => {
   //--------------------------------------------------------------------------
 
   const addPost = async (newPost: postInterface) => {
-    console.log("New Post", newPost);
     Object.assign(newPost, {
       creator_id: userData?.id,
       post_id: postsList.length + 1,

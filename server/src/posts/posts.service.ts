@@ -19,12 +19,13 @@ export class PostsService {
 
   async getAllPosts(): Promise<Partial<Post>[]> {
     const posts = await this.repo.find();
+    console.log('poastao', posts);
     return posts
       .map((post) => {
         return {
           id: post.id,
           user: post.user,
-          creation_date: new Date(),
+          creation_date: post.creation_date,
           post_id: post.id,
           creator_id: post.creator_id,
           text_content: post.text_content,

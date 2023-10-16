@@ -8,8 +8,6 @@ import { UserPropsInterface } from "../interfaces/user-props-interface";
 const WalletWidget = ({ userData }: UserPropsInterface) => {
   const { activeAccount, providers } = useWallet();
 
-  console.log("User Data:", userData);
-
   const navigate = useNavigate();
 
   const provider = providers?.filter(
