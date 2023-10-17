@@ -21,13 +21,19 @@ export class PostsController {
   @Get('/all')
   async getAllPosts() {
     const allPosts = await this.postService.getAllPosts();
+    console.log(allPosts);
     return allPosts;
   }
 
   @UseGuards(AuthGuard)
   @Post('/create')
-  createPost(@CurrentUser() currentUser: User, @Body() body: CreatePostDto) {
-    const post = this.postService.create(body, currentUser);
+  async createPost(
+    @CurrentUser() currentUser: User,
+    @Body() body: CreatePostDto,
+  ) {
+    console.log('create post body', body);
+    const post = await this.postService.create(body, currentUser);
+    console.log(post);
     return post;
   }
 }

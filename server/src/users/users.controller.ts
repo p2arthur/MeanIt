@@ -52,11 +52,22 @@ export class UsersController {
   @Get('/signout')
   async signoutUser(@Session() session: any) {
     session.userId = null;
+    console.log('signout', session);
     return session;
   }
 
   @Get('/:address')
   async findUser(
+    @Param('address') wallet_address: string,
+    @CurrentUser() currentUser: User,
+  ) {
+    const usersArray = await this.usersServices.find(wallet_address);
+    user = usersArray[0];
+    return user;
+  }
+
+  @Get('/:address')
+  async findUserById(
     @Param('address') wallet_address: string,
     @CurrentUser() currentUser: User,
   ) {

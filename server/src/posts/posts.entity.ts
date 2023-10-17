@@ -26,6 +26,9 @@ export class Post {
   @Column()
   creation_date: Date;
 
+  @Column()
+  creator_address: string;
+
   @ManyToOne(() => User, (user) => user.posts, { eager: true })
   user: User;
 

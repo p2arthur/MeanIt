@@ -49,6 +49,7 @@ const App = () => {
   const fetchPosts = async () => {
     try {
       const { data } = await axios.get(`${config.url}/posts/all`);
+      console.log("posts list:", data);
 
       setPostsList(data);
     } catch (error) {}
@@ -56,9 +57,9 @@ const App = () => {
   //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
-  const fetchUser = async () => {
+  const fetchUser = async (address: string) => {
     if (activeAccount) {
-      const data = await accountService.getAccount(activeAccount.address);
+      const data = await accountService.getAccount(address);
       setUserData(data);
     }
   };
@@ -93,7 +94,7 @@ const App = () => {
   useEffect(() => {
     if (activeAccount) {
       signinUser();
-      fetchUser();
+      fetchUser(activeAccount.address);
     }
     setUserData(undefined);
   }, [activeAccount]);
@@ -102,6 +103,8 @@ const App = () => {
   const addPost = async (newPost: postInterface) => {
     Object.assign(newPost, {
       creator_id: userData?.id,
+      user: { meanit_username: userData?.meanit_username },
+      creator_address: userData?.wallet_address,
       post_id: postsList.length + 1,
     });
     const newPostsList = [...postsList, newPost];
@@ -112,7 +115,7 @@ const App = () => {
   };
 
   const createCommunity = async (newCommunity: CommunityInterface) => {
-    console.log("app new community", newCommunity);
+    console.log("app new comment", newCommunity);
     Object.assign(newCommunity, { creator_id: userData?.id });
     const newCommunitiesList = [...communitiesList, newCommunity];
     if (!userData) {

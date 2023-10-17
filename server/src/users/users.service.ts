@@ -17,6 +17,7 @@ export class UsersService {
     const user = await this.repo.findOneBy({
       id: id,
     });
+    console.log('findone******* id', id);
     this.userData = user;
     return this.userData;
   }

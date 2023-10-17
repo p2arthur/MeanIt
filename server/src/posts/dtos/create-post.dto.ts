@@ -18,6 +18,9 @@ export class CreatePostDto {
   @IsInt()
   creator_id: number;
 
+  @IsString()
+  creator_address: string;
+
   @IsISO8601()
   creation_date: any;
 }

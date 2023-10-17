@@ -13,6 +13,7 @@ export class postServices {
           text_content: postContent,
           media: "",
           creator_id: userData.id,
+          creator_address: userData.wallet_address,
           creation_date: new Date(),
         },
         {
