@@ -27,8 +27,6 @@ export class PostsController {
   @UseGuards(AuthGuard)
   @Post('/create')
   createPost(@CurrentUser() currentUser: User, @Body() body: CreatePostDto) {
-    console.log('Current user:', currentUser);
-
     const post = this.postService.create(body, currentUser);
     return post;
   }

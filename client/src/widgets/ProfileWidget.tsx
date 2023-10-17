@@ -3,9 +3,34 @@ import formatWalletAddress from "../utils/formatWalletAddress";
 import { UserInterface } from "../interfaces/user-interface";
 import { BiBadgeCheck } from "react-icons/bi";
 import { UserPropsInterface } from "../interfaces/user-props-interface";
+import { CommunityInterface } from "../interfaces/community-interface";
 
-const ProfileWidget = ({ userData }: UserPropsInterface) => {
+interface ProfileWidgetPropsInterface {
+  userData: UserInterface;
+  createCommunity: any;
+}
+
+const ProfileWidget = ({
+  userData,
+  createCommunity,
+}: ProfileWidgetPropsInterface) => {
   const updateUser = () => {};
+
+  const handleCreateCommunity = async () => {
+    console.log("creating community");
+    const testCommunity: CommunityInterface = {
+      creator_address: "aaaaaaaa",
+      community_handle: "@testfromui",
+      text_content: "teststet",
+      creation_date: new Date(),
+    };
+
+    console.log("test community:", testCommunity);
+
+    const response = await createCommunity(testCommunity);
+
+    console.log("create community response", response);
+  };
 
   return (
     <div className="stats shadow mt-6 bg-gray-100 dark:bg-gray-950">
@@ -32,7 +57,10 @@ const ProfileWidget = ({ userData }: UserPropsInterface) => {
         >
           Update user
         </button>
-        <button className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75">
+        <button
+          onClick={handleCreateCommunity}
+          className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75"
+        >
           Create community
         </button>
       </div>

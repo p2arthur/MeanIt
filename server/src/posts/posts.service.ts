@@ -12,14 +12,12 @@ export class PostsService {
 
   async create(postDto: CreatePostDto, user: User) {
     const postInstance = this.repo.create(postDto);
-    console.log(postInstance);
     this.post = await this.repo.save(postInstance);
     return this.post;
   }
 
   async getAllPosts(): Promise<Partial<Post>[]> {
     const posts = await this.repo.find();
-    console.log('poastao', posts);
     return posts
       .map((post) => {
         return {

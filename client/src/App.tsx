@@ -19,6 +19,8 @@ import { config } from "./config";
 import { DeflyWalletConnect } from "@blockshake/defly-connect";
 import { PeraWalletConnect } from "@perawallet/connect";
 import { postServices } from "./services/postServices";
+import { communityServices } from "./services/communityServices";
+import { CommunityInterface } from "./interfaces/community-interface";
 
 //--------------------------------------------------------------------------
 
@@ -26,6 +28,10 @@ const App = () => {
   //--------------------------------------------------------------------------
   const { activeAccount } = useWallet();
   const [postsList, setPostsList] = useState<postInterface[]>([]);
+  const [communitiesList, setCommunitiesList] = useState<CommunityInterface[]>(
+    []
+  );
+
   const [userData, setUserData] = useState<UserInterface>();
   const walletProviders = useInitializeProviders({
     providers: [
@@ -36,6 +42,7 @@ const App = () => {
 
   const accountService = new accountServices();
   const postsService = new postServices();
+  const communityService = new communityServices();
   //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
@@ -104,6 +111,16 @@ const App = () => {
     );
   };
 
+  const createCommunity = async (newCommunity: CommunityInterface) => {
+    console.log("app new community", newCommunity);
+    Object.assign(newCommunity, { creator_id: userData?.id });
+    const newCommunitiesList = [...communitiesList, newCommunity];
+    if (!userData) {
+      return;
+    }
+    communityService.createCommunity(userData.wallet_address);
+  };
+
   //--------------------------------------------------------------------------
   const router = createBrowserRouter([
     {
@@ -116,7 +133,15 @@ const App = () => {
 
       children: [
         { path: "/", element: <HomePage addPost={addPost} /> },
-        { path: "/profile", element: <ProfilePage updateUser={updateUser} /> },
+        {
+          path: "/profile",
+          element: (
+            <ProfilePage
+              updateUser={updateUser}
+              createCommunity={createCommunity}
+            />
+          ),
+        },
         { path: "/posts/:postId", element: <PostDetail /> },
       ],
     },

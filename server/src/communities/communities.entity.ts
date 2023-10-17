@@ -15,7 +15,7 @@ export class Community {
   id: number;
 
   @Column()
-  creator_address: number;
+  creator_address: string;
 
   @Column()
   community_handle: string;

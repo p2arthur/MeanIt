@@ -4,7 +4,7 @@ import { Column } from 'typeorm';
 export class CreateCommunityDto {
   @IsString()
   @Column()
-  creator_address: number;
+  creator_address: string;
 
   @Column()
   community_handle: string;

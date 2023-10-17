@@ -18,24 +18,23 @@ export class CommunitiesController {
     @CurrentUser() currentUser: User,
     @Body() body: CreateCommunityDto,
   ) {
-    console.log(body);
+    console.log('Body:', body);
+    const userInstances = await this.userService.find(body.creator_address);
+    console.log(userInstances);
+    try {
+      const community = await this.communityService.create(
+        {
+          creator_address: userInstances[0].wallet_address,
+          community_handle: 'comm1',
+          text_content: 'whaterver',
+          creation_date: new Date(),
+        },
+        userInstances[0],
+      );
 
-    const userInstance = await this.userService.findOne(currentUser.id);
-
-    console.log('Current user:', userInstance);
-
-    const community = await this.communityService.create(
-      {
-        creator_address: userInstance.wallet_address,
-        community_handle: 'comm1',
-        text_content: 'whaterver',
-        creation_date: new Date(),
-      },
-      userInstance,
-    );
-
-    console.log('community:', community);
-
-    return { body, currentUser };
+      return { body, currentUser };
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

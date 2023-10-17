@@ -2,6 +2,6 @@ export interface UserInterface {
   id: number;
   nfd: string;
   meanit_username: string;
-  walletAddress: string;
+  wallet_address: string;
   profile_picture: string;
 }

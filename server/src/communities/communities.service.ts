@@ -13,9 +13,7 @@ export class CommunitiesService {
   private community: Community;
 
   async create(communityDto: CreateCommunityDto, user: User) {
-    console.log(communityDto);
     const cummunityInstance = this.repo.create(communityDto);
-    console.log(communityDto);
     this.community = await this.repo.save(cummunityInstance);
     return this.community;
   }
