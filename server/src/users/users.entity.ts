@@ -1,3 +1,4 @@
+import { Community } from 'src/communities/communities.entity';
 import { Post } from 'src/posts/posts.entity';
 import {
   AfterInsert,
@@ -28,6 +29,9 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
+
+  @OneToMany(() => Community, (community) => community.creator_address)
+  communities: Community[];
 
   @AfterInsert()
   logInsert() {}

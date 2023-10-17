@@ -32,6 +32,9 @@ const ProfileWidget = ({ userData }: UserPropsInterface) => {
         >
           Update user
         </button>
+        <button className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75">
+          Create community
+        </button>
       </div>
     </div>
   );

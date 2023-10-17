@@ -7,6 +7,8 @@ import { Post } from './posts/posts.entity';
 import { PostsModule } from './posts/posts.module';
 import { APP_PIPE } from '@nestjs/core/constants';
 import { AppController } from './app.controller';
+import { CommunitiesModule } from './communities/communities.module';
+import { Community } from './communities/communities.entity';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -16,13 +18,14 @@ const cookieSession = require('cookie-session');
         return {
           type: 'sqlite',
           database: 'db.sqlite',
-          entities: [User, Post],
+          entities: [User, Post, Community],
           synchronize: true,
         };
       },
     }),
     UsersModule,
     PostsModule,
+    CommunitiesModule,
   ],
   controllers: [AppController],
 
