@@ -28,9 +28,9 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async create(walletAddress: string) {
+  async create(wallet_address: string) {
     const users = await this.prismaService.user.findUnique({
-      where: { wallet_address: walletAddress },
+      where: { wallet_address },
     });
 
     if (users) {
@@ -38,14 +38,14 @@ export class UsersService {
     }
 
     try {
-      const nfd_username = await this.userUtils.getNfd(walletAddress);
+      const nfd_username = await this.userUtils.getNfd(wallet_address);
       const user_name =
         nfd_username === ''
-          ? this.userUtils.formatWalletAddress(walletAddress)
+          ? this.userUtils.formatWalletAddress(wallet_address)
           : nfd_username;
       const user = await this.prismaService.user.create({
         data: {
-          wallet_address: walletAddress,
+          wallet_address: wallet_address,
           nfd_username: nfd_username,
           meanit_username: user_name,
           profile_picture:
@@ -62,22 +62,32 @@ export class UsersService {
   //----------------------------------------------------------------------------
 
   async find(wallet_address: string) {
-    const user = await this.repo.find({
+    const user = await this.prismaService.user.findUnique({
       where: { wallet_address },
     });
 
-    return user;
+    if (!user) {
+      throw new NotFoundException(
+        "Couldn't find a user with the given wallet_address",
+      );
+    }
+
+    return this.userData;
   }
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async remove(user_id: number) {
-    const user = await this.findOne(user_id);
+  async remove(wallet_address: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { wallet_address },
+    });
     if (!user) {
       throw new NotFoundException();
     }
 
-    this.userData = this.repo.remove(user);
+    this.userData = this.prismaService.user.delete({
+      where: { wallet_address },
+    });
     return this.userData;
   }
   //----------------------------------------------------------------------------

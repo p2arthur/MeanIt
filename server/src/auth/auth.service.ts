@@ -33,9 +33,6 @@ export class AuthService {
   //----------------------------------------------------------------------------
   async signin(walletAddress: string) {
     const user = await this.usersService.find(walletAddress);
-    if (!user) {
-      throw new NotFoundException('');
-    }
 
     if (!user) {
       throw new NotFoundException('User with the given email not found');

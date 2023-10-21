@@ -58,20 +58,14 @@ export class UsersController {
   }
 
   @Get('/:address')
-  async findUser(
-    @Param('address') wallet_address: string,
-    @CurrentUser() currentUser: User,
-  ) {
+  async findUser(@Param('address') wallet_address: string) {
     const usersArray = await this.usersServices.find(wallet_address);
     user = usersArray[0];
     return user;
   }
 
   @Get('/:address')
-  async findUserById(
-    @Param('address') wallet_address: string,
-    @CurrentUser() currentUser: User,
-  ) {
+  async findUserByWalletAddress(@Param('address') wallet_address: string) {
     const usersArray = await this.usersServices.find(wallet_address);
     user = usersArray[0];
     return user;
