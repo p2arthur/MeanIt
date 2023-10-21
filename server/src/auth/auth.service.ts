@@ -1,20 +1,27 @@
 import { Injectable } from '@nestjs/common/decorators';
 import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/users.entity';
+import { User } from '@prisma/client';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private readonly prismaServices: PrismaService,
+  ) {}
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
   async signup(walletAddress: string) {
-    const users: User[] = await this.usersService.find(walletAddress);
-    const userExists: boolean = users.length > 0;
+    const users = await this.prismaServices.user.findFirst({
+      where: { wallet_address: walletAddress },
+    });
+
+    console.log(users);
 
     //See if walletAddress is already in use
-    if (userExists) {
+    if (users) {
       throw new BadRequestException('Wallet Address in use');
     }
 

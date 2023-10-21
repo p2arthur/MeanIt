@@ -3,12 +3,16 @@ import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { userUtils } from 'src/util';
+import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
 export class UsersService {
   private userData: any;
   private userUtils: userUtils;
-  constructor(@InjectRepository(User) private repo: Repository<User>) {
+  constructor(
+    @InjectRepository(User) private repo: Repository<User>,
+    private readonly prismaService: PrismaService,
+  ) {
     this.userUtils = new userUtils();
   }
 
@@ -25,10 +29,12 @@ export class UsersService {
 
   //----------------------------------------------------------------------------
   async create(walletAddress: string) {
-    const users = await this.find(walletAddress);
-    const user = users[0];
-    if (user) {
-      return user;
+    const users = await this.prismaService.user.findUnique({
+      where: { wallet_address: walletAddress },
+    });
+
+    if (users) {
+      return users;
     }
 
     try {
@@ -37,14 +43,17 @@ export class UsersService {
         nfd_username === ''
           ? this.userUtils.formatWalletAddress(walletAddress)
           : nfd_username;
-      const userData = this.repo.create({
-        wallet_address: walletAddress,
-        nfd_username: nfd_username,
-        meanit_username: user_name,
-        profile_picture:
-          'https://i.insider.com/61cc84b94710b10019c77960?width=500&format=jpeg&auto=webp',
+      const user = await this.prismaService.user.create({
+        data: {
+          wallet_address: walletAddress,
+          nfd_username: nfd_username,
+          meanit_username: user_name,
+          profile_picture:
+            'https://i.insider.com/61cc84b94710b10019c77960?width=500&format=jpeg&auto=webp',
+        },
       });
-      this.userData = await this.repo.save(userData);
+
+      this.userData = user;
       return this.userData;
     } catch (error) {}
   }

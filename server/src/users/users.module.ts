@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
+import { PrismaService } from 'src/database/PrismaService';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  providers: [UsersService, AuthService],
+  providers: [UsersService, AuthService, PrismaService],
   controllers: [UsersController],
 })
 export class UsersModule {

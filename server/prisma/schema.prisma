@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String      @id() @unique @default(uuid())
+  wallet_address  String      @unique
+  nfd_username    String
+  meanit_username String
+  profile_picture String
+  posts           Post[]
+  communities     Community[]
+
+  @@map("users")
+}
+
+model Post {
+  id            String   @id @unique @default(uuid())
+  text_content  String
+  media         String
+  creation_date DateTime
+  user          User     @relation(fields: [creator], references: [wallet_address])
+  creator       String
+
+  @@map("posts")
+}
+
+model Community {
+  id            String   @id @unique @default(uuid())
+  text_content  String
+  creation_date DateTime
+  user          User     @relation(fields: [creator], references: [wallet_address])
+  creator       String
+
+  @@map("communities")
+}
