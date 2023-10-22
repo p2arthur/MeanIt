@@ -1,29 +1,15 @@
 import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/users.entity';
-import { AuthService } from './auth/auth.service';
-import { Post } from './posts/posts.entity';
 import { PostsModule } from './posts/posts.module';
 import { APP_PIPE } from '@nestjs/core/constants';
 import { AppController } from './app.controller';
+import { CommunitiesModule } from './communities/communities.module';
+
 const cookieSession = require('cookie-session');
 
 @Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          type: 'sqlite',
-          database: 'db.sqlite',
-          entities: [User, Post],
-          synchronize: true,
-        };
-      },
-    }),
-    UsersModule,
-    PostsModule,
-  ],
+  imports: [UsersModule, PostsModule, CommunitiesModule],
   controllers: [AppController],
 
   providers: [

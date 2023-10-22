@@ -1,12 +1,5 @@
-import {
-  IsDate,
-  IsISO8601,
-  IsIn,
-  IsInt,
-  IsNumber,
-  IsString,
-  Length,
-} from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsString } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -14,10 +7,4 @@ export class CreatePostDto {
 
   @IsString()
   media: string;
-
-  @IsInt()
-  creator_id: number;
-
-  @IsISO8601()
-  creation_date: any;
 }

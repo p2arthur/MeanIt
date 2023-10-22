@@ -11,8 +11,9 @@ import {
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PostsService } from './posts.service';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { User } from '../users/users.entity';
+
 import { AuthGuard } from 'src/guards/auth.guard';
+import { User } from '@prisma/client';
 
 @Controller('/posts')
 export class PostsController {
@@ -21,15 +22,21 @@ export class PostsController {
   @Get('/all')
   async getAllPosts() {
     const allPosts = await this.postService.getAllPosts();
+
     return allPosts;
   }
 
   @UseGuards(AuthGuard)
   @Post('/create')
-  createPost(@CurrentUser() currentUser: User, @Body() body: CreatePostDto) {
-    console.log('Current user:', currentUser);
+  async createPost(
+    @CurrentUser() currentUser: User,
+    @Body() body: CreatePostDto,
+  ) {
+    const post = await this.postService.create(
+      body,
+      currentUser.wallet_address,
+    );
 
-    const post = this.postService.create(body, currentUser);
     return post;
   }
 }

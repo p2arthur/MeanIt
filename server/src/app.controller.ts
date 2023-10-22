@@ -9,10 +9,5 @@ import {
   Session,
 } from '@nestjs/common';
 
-@Controller()
-export class AppController {
-  @Get('/home')
-  goHome() {
-    return 'Hello from home';
-  }
-}
+@Controller('/communities')
+export class AppController {}
