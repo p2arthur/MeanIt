@@ -4,15 +4,26 @@ import { BiLogOut, BiUser } from "react-icons/bi";
 import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
 import { UserInterface } from "../interfaces/user-interface";
 import { UserPropsInterface } from "../interfaces/user-props-interface";
+import { accountServices } from "../services/accountServices";
 
 const WalletWidget = ({ userData }: UserPropsInterface) => {
   const { activeAccount, providers } = useWallet();
 
   const navigate = useNavigate();
 
+  const accountService = new accountServices();
+
   const provider = providers?.filter(
     (provider) => provider.metadata.id === activeAccount?.providerId
   );
+
+  const handleDisconnect = () => {
+    if (!provider) {
+      return;
+    }
+    provider[0].disconnect();
+    accountService.signoutUser();
+  };
 
   if (!userData) {
     return <div>Connect</div>;
@@ -48,7 +59,7 @@ const WalletWidget = ({ userData }: UserPropsInterface) => {
         <li>
           <a
             onClick={() =>
-              provider ? provider[0].disconnect() : console.log("No provider")
+              provider ? handleDisconnect() : console.log("No provider")
             }
             className="justify-between"
           >

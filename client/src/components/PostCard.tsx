@@ -3,8 +3,27 @@ import { BiLike, BiDonateHeart, BiComment } from "react-icons/bi";
 import formatWalletAddress from "../utils/formatWalletAddress";
 import { useNavigate } from "react-router-dom";
 import formatDateFromTimestamp from "../utils/formatDateFromTimestamp";
+import { accountServices } from "../services/accountServices";
+import { useEffect, useState } from "react";
+import { UserInterface } from "../interfaces/user-interface";
 
 const PostCard = (post: postInterface) => {
+  const [userData, setUserData] = useState<UserInterface>();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const accountService = new accountServices();
+
+      const userData = await accountService.getAccount(post.creator_address);
+
+      console.log(userData);
+
+      setUserData(userData);
+    };
+
+    fetchUserData();
+  }, []);
+
   const navigate = useNavigate();
 
   const postTimeDisplay = formatDateFromTimestamp(post.creation_date);
@@ -30,7 +49,7 @@ const PostCard = (post: postInterface) => {
               <div className="flex gap-3 items-center">
                 <div className="w-12 border-2 border-cyan-500 h-12 rounded-full bg-gray-300 dark:bg-gray-900 hover:scale-110 transition-all duration-75"></div>
                 <h3 className="text-gray-950 dark:text-gray-200 text-xl font-semibold">
-                  {post.creator_id}
+                  {userData?.meanit_username}
                 </h3>
               </div>
               <span>

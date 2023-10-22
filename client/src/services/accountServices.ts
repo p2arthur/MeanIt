@@ -51,6 +51,10 @@ export class accountServices {
     );
   }
 
+  public async signoutUser() {
+    const response = await axios.get(`${config.url}/auth/signout`);
+  }
+
   //----------------------------------------------------------------------------
   public async updateAccount(
     walletAddress: string,

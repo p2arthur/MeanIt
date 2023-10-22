@@ -1,16 +1,41 @@
 import React from "react";
 import formatWalletAddress from "../utils/formatWalletAddress";
 import { UserInterface } from "../interfaces/user-interface";
-import { BiBadgeCheck } from "react-icons/bi";
+import { BiUserVoice, BiWrench } from "react-icons/bi";
 import { UserPropsInterface } from "../interfaces/user-props-interface";
+import { CommunityInterface } from "../interfaces/community-interface";
 
-const ProfileWidget = ({ userData }: UserPropsInterface) => {
+interface ProfileWidgetPropsInterface {
+  userData: UserInterface;
+  createCommunity: any;
+}
+
+const ProfileWidget = ({
+  userData,
+  createCommunity,
+}: ProfileWidgetPropsInterface) => {
   const updateUser = () => {};
 
+  const handleCreateCommunity = async () => {
+    console.log("creating community");
+    const testCommunity: CommunityInterface = {
+      creator_address: "aaaaaaaa",
+      community_handle: "@testfromui",
+      text_content: "teststet",
+      creation_date: new Date(),
+    };
+
+    console.log("test community:", testCommunity);
+
+    const response = await createCommunity(testCommunity);
+
+    console.log("create community response", response);
+  };
+
   return (
-    <div className="stats shadow mt-6 bg-gray-100 dark:bg-gray-950">
-      <div className="flex items-center px-10 py-6 gap-3">
-        <div className="stat-figure text-secondary">
+    <div className="rounded-xl  border-none shadow mt-6 bg-gray-100 dark:bg-gray-950 flex justify-end">
+      <div className="flex gap-6 items-center px-10 py-6 justify-start w-5/6 ">
+        <div className="stat-figure text-secondary ">
           <div className="avatar">
             <div className="w-16 rounded-full border-2 border-cyan-300">
               <img
@@ -26,12 +51,26 @@ const ProfileWidget = ({ userData }: UserPropsInterface) => {
         <div className="stat-value text-gray-900 dark:text-gray-100 flex items-center gap-3">
           {userData ? userData.meanit_username : null}
         </div>
-        <button
-          onClick={() => updateUser()}
-          className="rounded bg-gray-900 text-gray-200 border-2 py-1 px-3 hover:bg-cyan-500 border-gray-900 transition-all duration-75"
-        >
-          Update user
-        </button>
+      </div>
+      <div className="w-1/6 flex justify-end py-5 px-12">
+        <div className="flex gap-5 h-12 justify-end w-16">
+          <div
+            className="tooltip w-5 h-5 tooltip-bottom"
+            data-tip="update account"
+          >
+            <button>
+              <BiWrench className="w-5 h-5" />
+            </button>
+          </div>
+          <div
+            className="tooltip w-5 h-5 tooltip-bottom"
+            data-tip="create community"
+          >
+            <button onClick={handleCreateCommunity}>
+              <BiUserVoice className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

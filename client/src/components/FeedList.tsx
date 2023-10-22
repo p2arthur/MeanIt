@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from "react";
 import Modal from "./Modal";
 import { useOutletContext } from "react-router-dom";
 import { postInterface } from "../interfaces/post-interface";
+import { accountServices } from "../services/accountServices";
 
 const FeedList = (): JSX.Element => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -27,6 +28,7 @@ const FeedList = (): JSX.Element => {
           post_id={post.post_id}
           creation_date={post.creation_date}
           creator_id={post.creator_id}
+          creator_address={post.creator_address}
           //   interactions={{
           //     likes: post.interactions.likes,
           //     comments: post.interactions.comments,
