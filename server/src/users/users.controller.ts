@@ -61,7 +61,7 @@ export class UsersController {
   @Get('/:address')
   async findUser(@Param('address') wallet_address: string) {
     const usersArray = await this.usersServices.find(wallet_address);
-    user = usersArray[0];
+    user = usersArray;
     return user;
   }
 

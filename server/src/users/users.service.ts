@@ -59,6 +59,9 @@ export class UsersService {
   async find(wallet_address: string) {
     const user = await this.prismaService.user.findUnique({
       where: { wallet_address },
+      include: {
+        posts: true,
+      },
     });
 
     this.userData = user;
