@@ -62,13 +62,6 @@ export class UsersService {
     });
 
     this.userData = user;
-
-    if (!user) {
-      throw new NotFoundException(
-        "Couldn't find a user with the given wallet_address",
-      );
-    }
-
     return this.userData;
   }
   //----------------------------------------------------------------------------
