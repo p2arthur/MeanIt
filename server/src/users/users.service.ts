@@ -1,27 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { userUtils } from 'src/util';
 import { PrismaService } from 'src/database/PrismaService';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   private userData: any;
   private userUtils: userUtils;
-  constructor(
-    @InjectRepository(User) private repo: Repository<User>,
-    private readonly prismaService: PrismaService,
-  ) {
+  constructor(private readonly prismaService: PrismaService) {
     this.userUtils = new userUtils();
   }
 
   //----------------------------------------------------------------------------
   async findOne(id: number) {
-    const user = await this.repo.findOneBy({
-      id: id,
-    });
-    console.log('findone******* id', id);
+    const user = await this.prismaService.user.findFirst({ where: { id } });
+
     this.userData = user;
     return this.userData;
   }
@@ -66,6 +61,8 @@ export class UsersService {
       where: { wallet_address },
     });
 
+    this.userData = user;
+
     if (!user) {
       throw new NotFoundException(
         "Couldn't find a user with the given wallet_address",
@@ -98,10 +95,6 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
-
-    const updatedUser = Object.assign(user, attributes);
-
-    this.userData = this.repo.save(updatedUser);
 
     return this.userData;
   }

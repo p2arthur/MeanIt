@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { UsersService } from '../users.service';
-import { User } from '../users.entity';
+import { User } from '@prisma/client';
 
 declare global {
   namespace Express {
@@ -15,13 +15,13 @@ declare global {
 export class CurrentUserMiddleware implements NestMiddleware {
   constructor(private usersService: UsersService) {}
   async use(req: any, res: Response, next: NextFunction) {
-    const { userId } = req.session || {};
+    const { wallet_address } = req.session || {};
 
-    if (!userId) {
+    if (!wallet_address) {
       throw new NotFoundException();
     }
 
-    const user = await this.usersService.findOne(userId);
+    const user = await this.usersService.find(wallet_address);
     req.currentUser = user;
 
     next();

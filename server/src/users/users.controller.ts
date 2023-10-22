@@ -13,11 +13,11 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { Address } from '@randlabs/myalgo-connect';
-import { User } from './users.entity';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { AuthService } from 'src/auth/auth.service';
 import { SignInUserDto } from './dtos/sign-in.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { User } from '@prisma/client';
 
 let user: User;
 
@@ -37,23 +37,24 @@ export class UsersController {
   @Post('/signin')
   async signinUser(@Body() body: SignInUserDto, @Session() session: any) {
     const user = await this.authService.signin(body.wallet_address);
-    const userId = user[0].id;
-    session.userId = userId;
+    const wallet_address = user.wallet_address;
+    session.wallet_address = wallet_address;
     return session;
   }
 
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signup(body.walletAddress);
-    console.log('create user user:', user);
-    session.userId = user.id;
+
+    const wallet_address = user.wallet_address;
+    session.wallet_address = wallet_address;
     return user;
   }
 
   @Get('/signout')
   async signoutUser(@Session() session: any) {
     session.userId = null;
-    console.log('signout', session);
+
     return session;
   }
 

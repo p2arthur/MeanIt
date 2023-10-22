@@ -1,22 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/users.entity';
-import { Community } from './communities.entity';
 import { CreateCommunityDto } from './dtos/create-community.dto';
+import { Community, User } from '@prisma/client';
+import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
 export class CommunitiesService {
-  constructor(
-    @InjectRepository(Community) private repo: Repository<Community>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
   private community: Community;
 
-  async create(communityDto: CreateCommunityDto, user: User) {
-    const cummunityInstance = this.repo.create(communityDto);
-    this.community = await this.repo.save(cummunityInstance);
-    return this.community;
-  }
+  async create(communityDto: CreateCommunityDto, user: User) {}
 
   // async getAllPosts(): Promise<Partial<Post>[]> {
   //   const posts = await this.repo.find();

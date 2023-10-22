@@ -18,8 +18,6 @@ export class AuthService {
       where: { wallet_address: walletAddress },
     });
 
-    console.log(users);
-
     //See if walletAddress is already in use
     if (users) {
       throw new BadRequestException('Wallet Address in use');
@@ -31,11 +29,13 @@ export class AuthService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  async signin(walletAddress: string) {
-    const user = await this.usersService.find(walletAddress);
+  async signin(wallet_address: string) {
+    const user = await this.usersService.find(wallet_address);
 
     if (!user) {
-      throw new NotFoundException('User with the given email not found');
+      throw new NotFoundException(
+        'User with the given walllet address not found',
+      );
     }
 
     return user;

@@ -11,34 +11,47 @@ datasource db {
 }
 
 model User {
-  id              String      @id() @unique @default(uuid())
-  wallet_address  String      @unique
-  nfd_username    String
-  meanit_username String
-  profile_picture String
-  posts           Post[]
-  communities     Community[]
+  id                  Int                   @id() @unique @default(autoincrement())
+  wallet_address      String                @unique
+  nfd_username        String
+  meanit_username     String
+  profile_picture     String
+  posts               Post[]
+  communities         Community[]
+  CommunityMembership CommunityMembership[]
 
   @@map("users")
 }
 
 model Post {
-  id            String   @id @unique @default(uuid())
+  id            Int    @id @unique @default(autoincrement())
   text_content  String
   media         String
-  creation_date DateTime
-  user          User     @relation(fields: [creator], references: [wallet_address])
+  creation_date String
+  user          User   @relation(fields: [creator], references: [wallet_address])
   creator       String
 
   @@map("posts")
 }
 
 model Community {
-  id            String   @id @unique @default(uuid())
+  id            String                @id @unique @default(uuid())
   text_content  String
-  creation_date DateTime
-  user          User     @relation(fields: [creator], references: [wallet_address])
+  creation_date String
   creator       String
+  members       CommunityMembership[]
+  user          User                  @relation(fields: [creator], references: [wallet_address])
 
   @@map("communities")
+}
+
+model CommunityMembership {
+  id              Int       @id @default(autoincrement())
+  community       Community @relation(fields: [community_id], references: [id])
+  community_id    String
+  last_membership String
+  user            User      @relation(fields: [user_wallet], references: [wallet_address])
+  user_wallet     String
+
+  @@map("community_memberships")
 }

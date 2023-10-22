@@ -1,10 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { Community } from './communities.entity';
 import { CreateCommunityDto } from './dtos/create-community.dto';
-import { User } from 'src/users/users.entity';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { CommunitiesService } from './communities.service';
 import { UsersService } from 'src/users/users.service';
+import { User } from '@prisma/client';
 
 @Controller('/communities')
 export class CommunitiesController {
@@ -18,9 +17,8 @@ export class CommunitiesController {
     @CurrentUser() currentUser: User,
     @Body() body: CreateCommunityDto,
   ) {
-    console.log('Body:', body);
     const userInstances = await this.userService.find(body.creator_address);
-    console.log(userInstances);
+
     try {
       const community = await this.communityService.create(
         {
